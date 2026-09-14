@@ -39,3 +39,13 @@
   from = "/api/refresh-discoveries"
   to = "/.netlify/functions/refresh-discoveries"
   status = 200
+
+[[redirects]]
+  from = "/api/case-document"
+  to = "/.netlify/functions/case-document"
+  status = 200
+
+[[redirects]]
+  from = "/api/case-record"
+  to = "/.netlify/functions/case-record"
+  status = 200

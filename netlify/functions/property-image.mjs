@@ -1,8 +1,7 @@
-import { getStore } from '@netlify/blobs';
+import { mediaStore } from '../lib/archive.mjs';
 import { getDocument, OPS, ImageKind } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { createCanvas, ImageData } from '@napi-rs/canvas';
 
-const MEDIA_STORE = 'auction-media';
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/152.0 Safari/537.36';
 
 function esc(s='') {
@@ -217,8 +216,7 @@ async function cacheResult(store,key,result,meta={}){
 export default async (req) => {
   if(req.method!=='GET') return new Response('method_not_allowed',{status:405});
   const u=new URL(req.url), source=u.searchParams.get('url'), id=u.searchParams.get('id')||'unknown', title=u.searchParams.get('title')||'日本法拍物件';
-  if(!source||!allowedSource(source)) return new Response('bad_or_missing_url',{status:400});
-  const store=getStore(MEDIA_STORE,{consistency:'strong'}), key=`${id}/cover`;
+  const store=mediaStore(), key=`${id}/cover`;
   const debug=u.searchParams.get('debug')==='1';
 
   try{
@@ -229,6 +227,7 @@ export default async (req) => {
     }
   }catch{}
 
+  if(!source||!allowedSource(source)) return new Response('bad_or_missing_url',{status:400});
   const page=await fetchPageText(source);
   const debugInfo={pageVia:page?.via||null,imageCandidates:0,pdfCandidates:0};
   if(page?.html){
@@ -241,6 +240,16 @@ export default async (req) => {
       }
     }
     const pdfs=collectPdfCandidates(page.html,source); debugInfo.pdfCandidates=pdfs.length;
+    for(const bit of pdfs.filter(x=>/bit\.courts\.go\.jp\/app\/detail\/pd001\/h04/i.test(x.url)).slice(0,2)){
+      const bitPage=await fetchPageText(bit.url);
+      if(bitPage?.html){
+        const bitImgs=collectImageCandidates(bitPage.html,bit.url);
+        for(const c of bitImgs.slice(0,30)){
+          const found=await tryRemoteImage(c,bit.url);
+          if(found){found.method='bit-page-image';await cacheResult(store,key,found,{pageVia:bitPage.via,bitUrl:bit.url});if(debug)return Response.json({ok:true,cached:false,method:found.method,source:found.source,...debugInfo});return new Response(found.body,{headers:{'content-type':found.contentType,'cache-control':'public, max-age=3600','netlify-cdn-cache-control':'public, durable, s-maxage=604800'}});}
+        }
+      }
+    }
     const pdfPhoto=await tryPdfPhotos(pdfs,source);
     if(pdfPhoto){ await cacheResult(store,key,pdfPhoto,{pageVia:page.via,pdfPage:pdfPhoto.page});
       if(debug) return Response.json({ok:true,cached:false,method:pdfPhoto.method,source:pdfPhoto.source,page:pdfPhoto.page,...debugInfo});

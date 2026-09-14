@@ -78,7 +78,7 @@ function renderDiscover(){
 function propertyImageUrl(x){
   // V2.1.1: 由自己的 Netlify Function 讀來源案件頁並代理主圖，
   // 不再依賴 Microlink，也避免來源站防盜連造成瀏覽器直接載圖失敗。
-  return `/api/property-image?id=${encodeURIComponent(x.id)}&url=${encodeURIComponent(x.sourceUrl)}&title=${encodeURIComponent(x.title)}`;
+  return `/api/property-image?id=${encodeURIComponent(x.id)}&url=${encodeURIComponent(x.sourceUrl||'')}&title=${encodeURIComponent(x.title)}&v=260`;
 }
 function photoFallback(el,label,sourceUrl){
   if(sourceUrl && el.dataset.fallbackStage!=='preview'){
@@ -172,7 +172,7 @@ async function runAnalysis(raw){
   renderUnknownWorkbench(raw,id);
 }
 function renderIngesting(id,url){
-  $('#analysisResult').innerHTML=`<div class="workbench-result"><div class="result-status"><span>案件 ${escapeHtml(id)}</span><b>正在下載三點件並建立 Drive 檔案…</b></div><div class="analysis-steps"><div class="done">✓ 收到案件網址</div><div class="active">↻ 尋找／下載三點件</div><div>○ 存入 Google Drive</div><div>○ 從三點件抽取主圖</div><div>○ 建立分析資料</div></div><p class="muted">${escapeHtml(url)}</p></div>`;
+  $('#analysisResult').innerHTML=`<div class="workbench-result"><div class="result-status"><span>案件 ${escapeHtml(id)}</span><b>正在下載法院資料並存入網站資料庫…</b></div><div class="analysis-steps"><div class="done">✓ 收到案件網址</div><div class="active">↻ 尋找／下載三點件</div><div>○ 存入 Netlify Blobs</div><div>○ 從三點件抽取主圖</div><div>○ 建立分析資料</div></div><p class="muted">${escapeHtml(url)}</p></div>`;
 }
 async function ingestCase(url,d={}){
   if(!url)return;
@@ -181,16 +181,14 @@ async function ingestCase(url,d={}){
     const r=await fetch('/api/ingest-case',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({url,caseId:d.id||parseAnalysisInput(url),title:d.title||'',prefecture:d.prefecture||'',city:d.city||'',court:d.court||'',price:d.price||'',type:d.type||'',area:d.area||'',bid:d.bid||''})});
     const data=await r.json().catch(()=>({ok:false,error:`HTTP ${r.status}`}));
     if(r.ok&&data.ok){
-      const saved=(data.documents||[]).filter(x=>x.drive&&!x.error);
+      const saved=(data.documents||[]).filter(x=>x.saved&&!x.error);
       const failed=(data.documents||[]).filter(x=>x.error);
-      $('#analysisResult').innerHTML=`<div class="workbench-result ready"><div class="result-status"><span>法院三點件建檔完成</span><b>${saved.length} 份已存 Google Drive${data.mainImage?' · 主圖已建立':''}</b></div><div class="analysis-steps"><div class="done">✓ 基本資料</div><div class="done">✓ BIT 三點件下載／存 Drive</div><div class="${data.mainImage?'done':''}">${data.mainImage?'✓':'○'} 三點件主圖</div><div>○ 租金／市場行情</div><div>○ 投報／安全邊際／出價</div></div><div class="gate-box"><b>Drive：</b>${escapeHtml(data.docFolder?.name||'案件資料夾')}<br><b>主圖來源：</b>${escapeHtml(data.mainImage?.pdfType||'尚未取得')}${data.mainImage?.pdfPage?`（PDF 第 ${data.mainImage.pdfPage} 頁）`:''}${failed.length?`<br><b>未完成：</b>${failed.map(x=>escapeHtml(x.type+': '+x.error)).join('、')}`:''}</div><div class="workbench-actions"><button class="primary" onclick="location.reload()">更新首頁主圖</button><a href="${url}" target="_blank" rel="noreferrer" class="soft-link">查看原始案件 ↗</a></div></div>`;
+      if(d?.id){d.bitStatus=data.bitUrl?(saved.length?`BIT已定位／三點件已存 ${saved.length} 份`:'BIT已定位／文件待重試'):(d.bitStatus||'待BIT定位');d.imageStatus=data.mainImage?'主圖已建立':'待主圖';renderDiscover();renderShortlist();}
+      const downloads=saved.length?`<div class="doc-downloads"><b>已保存文件</b>${saved.map(x=>`<a href="${x.downloadUrl}" target="_blank" rel="noreferrer">下載 ${escapeHtml(x.type||x.documentId)} ↗</a>`).join('')}</div>`:'';
+      $('#analysisResult').innerHTML=`<div class="workbench-result ready"><div class="result-status"><span>法院資料建檔完成</span><b>${saved.length} 份已存 Netlify Blobs${data.mainImage?' · 主圖已建立':''}</b></div><div class="analysis-steps"><div class="done">✓ 基本資料</div><div class="done">✓ BIT／三點件保存</div><div class="${data.mainImage?'done':''}">${data.mainImage?'✓':'○'} 三點件主圖</div><div>○ 租金／市場行情</div><div>○ 投報／安全邊際／出價</div></div><div class="gate-box"><b>保存層：</b>Netlify Blobs<br><b>BIT：</b>${escapeHtml(data.bitUrl||'尚未定位')}<br><b>主圖來源：</b>${escapeHtml(data.mainImage?.pdfType||data.mainImage?.method||'尚未取得')}${data.mainImage?.pdfPage?`（第 ${data.mainImage.pdfPage} 頁）`:''}${failed.length?`<br><b>待重試：</b>${failed.map(x=>escapeHtml((x.type||'文件')+': '+x.error)).join('、')}`:''}</div>${downloads}<div class="workbench-actions"><button class="primary" onclick="location.reload()">更新首頁主圖</button><a href="${url}" target="_blank" rel="noreferrer" class="soft-link">查看原始案件 ↗</a></div></div>`;
       return;
     }
-    if(data.error==='drive_not_configured'){
-      $('#analysisResult').innerHTML=`<div class="workbench-result"><div class="result-status"><span>三點件已找到</span><b>Google Drive API 尚未配置</b></div><div class="analysis-steps"><div class="done">✓ 案件網址</div><div class="done">✓ 找到 ${data.discoveredDocs?.length||0} 份文件</div><div>○ 存入 Google Drive</div><div>○ 建立主圖</div></div><div class="gate-box"><b>尚缺 Netlify 環境變數：</b>${(data.missing||[]).map(escapeHtml).join('、')}<br>文件沒有消失；Drive 憑證接好後可重新執行。</div></div>`;
-      return;
-    }
-    $('#analysisResult').innerHTML=`<div class="workbench-result"><div class="result-status"><span>建檔未完成</span><b>${escapeHtml(data.error||'unknown_error')}</b></div><div class="gate-box">這次失敗不會清除任何既有資料。可修正來源或權限後重新執行。</div></div>`;
+    $('#analysisResult').innerHTML=`<div class="workbench-result"><div class="result-status"><span>建檔未完成</span><b>${escapeHtml(data.error||'unknown_error')}</b></div><div class="gate-box">這次失敗不會清除任何既有資料。系統保留最後成功快照，可稍後重試。</div></div>`;
   }catch(e){
     $('#analysisResult').innerHTML=`<div class="workbench-result"><div class="result-status"><span>建檔未完成</span><b>網路／Function 錯誤</b></div><div class="gate-box">${escapeHtml(e.message||String(e))}<br>既有成功資料不會被覆蓋。</div></div>`;
   }
@@ -200,7 +198,7 @@ function renderFullWorkbench(c){
 }
 function renderPendingWorkbench(d){
   const chosen=selected.has(d.id);
-  $('#analysisResult').innerHTML=`<div class="workbench-result"><div class="result-status"><span>案件已辨識</span><b>基本資料完成 · 深度分析待執行</b></div><div class="full-head"><div><h2>${d.title}</h2><p>${d.prefecture}${d.city}${d.address}｜${d.court}</p></div><span class="pending-badge">待分析</span></div><div class="decision-kpis"><div><span>起標價</span><b>${yen(d.price)}</b></div><div><span>類型</span><b>${d.type}</b></div><div><span>面積</span><b>${d.area}m²</b></div><div><span>屋齡</span><b>${d.age}年</b></div><div><span>入札</span><b>${d.bid}</b></div></div><div class="analysis-steps"><div class="done">✓ 基本資料</div><div>○ 三點件／占用</div><div>○ 租金／市場行情</div><div>○ 投報／安全邊際／出價</div></div><div class="workbench-actions"><button id="pendingToggle" class="primary">${chosen?'✓ 已在我的篩選':'＋ 加入我的篩選'}</button><a href="${d.sourceUrl}" target="_blank" rel="noreferrer" class="soft-link">查看原始案件 ↗</a></div></div>`;
+  $('#analysisResult').innerHTML=`<div class="workbench-result"><div class="result-status"><span>案件已辨識</span><b>基本資料完成 · 深度分析待執行</b></div><div class="full-head"><div><h2>${d.title}</h2><p>${d.prefecture}${d.city}${d.address}｜${d.court}</p></div><span class="pending-badge">待分析</span></div><div class="decision-kpis"><div><span>起標價</span><b>${yen(d.price)}</b></div><div><span>類型</span><b>${d.type||'待確認'}</b></div><div><span>面積</span><b>${d.area!=null?d.area+'m²':'待確認'}</b></div><div><span>屋齡</span><b>${d.age!=null?d.age+'年':'待確認'}</b></div><div><span>入札</span><b>${d.bid||'待確認'}</b></div></div><div class="analysis-steps"><div class="done">✓ 基本資料</div><div>○ 三點件／占用</div><div>○ 租金／市場行情</div><div>○ 投報／安全邊際／出價</div></div><div class="workbench-actions"><button id="pendingToggle" class="primary">${chosen?'✓ 已在我的篩選':'＋ 加入我的篩選'}</button><a href="${d.sourceUrl}" target="_blank" rel="noreferrer" class="soft-link">查看原始案件 ↗</a></div></div>`;
   $('#pendingToggle').onclick=()=>{toggleShortlist(d.id);renderPendingWorkbench(d)};
 }
 function renderUnknownWorkbench(raw,id){

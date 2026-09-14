@@ -16,3 +16,6 @@
 @media(max-width:720px){.property-photo-wrap{height:230px}}
 /* V2.5 data-state badges */
 .data-status-row{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 2px}.status-pill{font-size:10px;font-weight:900;border-radius:999px;padding:5px 8px;border:1px solid #d8dee5;background:#f3f5f7;color:#536273}.status-pill.ok{background:#e8f7ef;border-color:#b8e4cc;color:#157347}.status-pill.pending{background:#fff7e7;border-color:#f0d59d;color:#8a5b0a}.source-actions button:disabled{opacity:.55;cursor:wait}
+
+/* V2.6 Blobs document links */
+.doc-downloads{margin:14px 0;padding:12px;border:1px solid var(--line);border-radius:12px;background:#f8fafb;display:flex;gap:8px;align-items:center;flex-wrap:wrap}.doc-downloads b{margin-right:4px;font-size:12px}.doc-downloads a{font-size:11px;font-weight:800;color:var(--navy);text-decoration:none;border:1px solid #d9e0e6;background:white;border-radius:9px;padding:7px 9px}

@@ -19,7 +19,12 @@ export default async(req)=>{
     const page=await fetchHtml(item.sourceUrl); if(!page)continue;
     const enriched=parseDetail(item,page.html);byId.set(String(item.id),enriched);
     if(enriched.bitUrl){
-      await fetch(new URL('/api/ingest-case',req.url),{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({url:item.sourceUrl,caseId:item.id,title:enriched.title||'',prefecture:enriched.prefecture||'',city:enriched.city||'',court:enriched.court||'',price:enriched.price||'',type:enriched.type||'',area:enriched.area||'',bid:enriched.bid||''})}).catch(()=>null);
+      try{
+        const rr=await fetch(new URL('/api/ingest-case',req.url),{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({url:item.sourceUrl,caseId:item.id,title:enriched.title||'',prefecture:enriched.prefecture||'',city:enriched.city||'',court:enriched.court||'',price:enriched.price||'',type:enriched.type||'',area:enriched.area||'',bid:enriched.bid||''})});
+        const ingest=await rr.json().catch(()=>null);
+        if(rr.ok&&ingest?.ok){enriched.bitStatus=ingest.savedCount?`BIT已定位／三點件已存 ${ingest.savedCount} 份`:'BIT已定位／文件待重試';enriched.imageStatus=ingest.mainImage?'主圖已建立':'待主圖';enriched.documentCount=ingest.savedCount||0;}
+      }catch{}
+      byId.set(String(item.id),enriched);
     }
   }
   items=[...byId.values()].sort((a,b)=>String(b.published||b.discoveredAt||'').localeCompare(String(a.published||a.discoveredAt||''))).slice(0,600);
