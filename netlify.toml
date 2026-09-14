@@ -1,0 +1,41 @@
+[build]
+  publish = "."
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/cases"
+  to = "/.netlify/functions/cases"
+  status = 200
+
+[[redirects]]
+  from = "/api/case-state"
+  to = "/.netlify/functions/case-state"
+  status = 200
+
+[[redirects]]
+  from = "/api/case-override"
+  to = "/.netlify/functions/case-override"
+  status = 200
+
+[[redirects]]
+  from = "/api/case-snapshot"
+  to = "/.netlify/functions/case-snapshot"
+  status = 200
+
+[[redirects]]
+  from = "/api/ingest-case"
+  to = "/.netlify/functions/ingest-case"
+  status = 200
+
+[[redirects]]
+  from = "/api/discoveries"
+  to = "/.netlify/functions/discoveries"
+  status = 200
+
+[[redirects]]
+  from = "/api/refresh-discoveries"
+  to = "/.netlify/functions/refresh-discoveries"
+  status = 200

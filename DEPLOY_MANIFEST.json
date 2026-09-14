@@ -1,0 +1,130 @@
+{
+  "version": "2.5.0",
+  "built_at": "2026-09-14",
+  "site": "japan-auction-invest",
+  "site_id": "6d8fa11c-5290-4038-bb29-c37f9e700eb9",
+  "expected_functions": [
+    "case-override",
+    "case-snapshot",
+    "case-state",
+    "cases",
+    "daily-discovery",
+    "discoveries",
+    "enrich-discoveries-background",
+    "ingest-case",
+    "property-image",
+    "refresh-discoveries"
+  ],
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 3263,
+      "sha256": "87a766d0a34646e583f4e8d899fa1e5d96f9aec4289f170225c6432586087dae"
+    },
+    {
+      "path": "app.js",
+      "bytes": 18377,
+      "sha256": "70bee9d11e53afc293242e31aee7aa251be7f5cd9a237ca54b8cea2f35287cf2"
+    },
+    {
+      "path": "data/cases.json",
+      "bytes": 3656,
+      "sha256": "4489b2f1c2b9372fba3749a8327d3ef7c92fd9e1222efe4a2e9c05f365c40403"
+    },
+    {
+      "path": "data/discoveries.json",
+      "bytes": 15902,
+      "sha256": "9f20fcba0289fcc36516d83d5c56812463d125b398fd2b620b759ba5dab3680b"
+    },
+    {
+      "path": "index.html",
+      "bytes": 5469,
+      "sha256": "821e0ba19da07bb9908ff6464ac33967ce124858eb245659c55f86ef538cf974"
+    },
+    {
+      "path": "netlify/functions/case-override.mjs",
+      "bytes": 946,
+      "sha256": "4d403fbd2fb35b013abb0a5cac4f29c86a8cbc983f8cc339ac2d5cf98c67dc3b"
+    },
+    {
+      "path": "netlify/functions/case-snapshot.mjs",
+      "bytes": 1179,
+      "sha256": "decbea162d3a0ea5e0169cd23f152c2585db241709fc53bfb5f0f289b4e4c6de"
+    },
+    {
+      "path": "netlify/functions/case-state.mjs",
+      "bytes": 806,
+      "sha256": "be85c876442818ecdde630403d8471b39ffab13405cea1c845ea8f6e45623df1"
+    },
+    {
+      "path": "netlify/functions/cases.mjs",
+      "bytes": 715,
+      "sha256": "84ff3889704a8c4b17bb5a6eaf20fda3cb540d4c564a4665b9cd1682057f3fb2"
+    },
+    {
+      "path": "netlify/functions/daily-discovery.mjs",
+      "bytes": 579,
+      "sha256": "74080d15f0aa2e48dfdd2573044b47c394d71770f5459cd1330e910243394dfb"
+    },
+    {
+      "path": "netlify/functions/discoveries.mjs",
+      "bytes": 396,
+      "sha256": "911b2fe954107ddb1320ecad03373a627a90af934de7fb2e29fffb216dc6c392"
+    },
+    {
+      "path": "netlify/functions/enrich-discoveries-background.mjs",
+      "bytes": 3136,
+      "sha256": "e139dea490b1f3ebc997f8d9266f362b4b48e2b81c4cdbf30c8a19f100431512"
+    },
+    {
+      "path": "netlify/functions/ingest-case.mjs",
+      "bytes": 9149,
+      "sha256": "17c38f518fd59178f61a89ef64b1d5102233b4de6e47396be24ab41d647f9a71"
+    },
+    {
+      "path": "netlify/functions/property-image.mjs",
+      "bytes": 12982,
+      "sha256": "a4317bd1baf64b874f46a3de5f34a29d5465b6ccfa18a980602c4ce9860feb0c"
+    },
+    {
+      "path": "netlify/functions/refresh-discoveries.mjs",
+      "bytes": 706,
+      "sha256": "e381f8ec6af567217678a48a773f5c072f0e9235973a3081b7ea78d1cb7711f8"
+    },
+    {
+      "path": "netlify/lib/discovery.mjs",
+      "bytes": 4298,
+      "sha256": "b2058070dffec34b053fb99e32c1a8588c74817d385705becacc73e654cba3d8"
+    },
+    {
+      "path": "netlify/lib/drive.mjs",
+      "bytes": 6304,
+      "sha256": "79cabb53ae91c534d8e3a05d706b68baff1178d535df1b96cd2734a82efd8627"
+    },
+    {
+      "path": "netlify/lib/pdf-photo.mjs",
+      "bytes": 2659,
+      "sha256": "f13495dd2570199432149dc4002c0ff917d5eb7e15e6f21e3190221f83f2c368"
+    },
+    {
+      "path": "netlify/lib/store.mjs",
+      "bytes": 878,
+      "sha256": "ed8ba8062fbfe2cd93bd86f00e3fad4f443c43b11f414e0971e139b3b1db1b96"
+    },
+    {
+      "path": "netlify.toml",
+      "bytes": 801,
+      "sha256": "99cec34c5938b0c3e4e71af53bbdfed14bfad4f59f1bdd5bce2f71341f163717"
+    },
+    {
+      "path": "package.json",
+      "bytes": 256,
+      "sha256": "3d70e1549cfac619c5e81c3918aaf809a408bd734271e18860379180be7d3cb1"
+    },
+    {
+      "path": "styles.css",
+      "bytes": 12620,
+      "sha256": "6f2d49a5220d8de52335ac396d778a0d8c4386263409f541b50ee6232c6d0d2d"
+    }
+  ]
+}

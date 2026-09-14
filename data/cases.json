@@ -1,0 +1,118 @@
+[
+  {
+    "id": "294645",
+    "title": "JPアパートメント高砂",
+    "court": "神戶地方裁判所姬路支部",
+    "caseNo": "令和07年(ケ)第112号",
+    "prefecture": "兵庫縣",
+    "city": "高砂市",
+    "propertyType": "整棟收益住宅",
+    "area": "未確認",
+    "age": "未確認",
+    "startPrice": 52590000,
+    "monthlyRent": 1193500,
+    "annualRent": 14322000,
+    "occupiedUnits": 26,
+    "totalUnits": 27,
+    "occupancyRate": 96.3,
+    "fixedAssetTax": 657229,
+    "cityPlanningTax": 150539,
+    "taxOnlyYield": 25.70,
+    "grossYield": 27.23,
+    "marketEstimateLow": 131500000,
+    "marketEstimateHigh": 159100000,
+    "recommendedBidLow": 80000000,
+    "recommendedBidHigh": 85000000,
+    "maxBid": 90000000,
+    "safetyMarginAtRecommendedHigh": 35.4,
+    "status": "待研究",
+    "rating": "B",
+    "ratingLabel": "有條件觀察",
+    "sourceStatus": "warning",
+    "sourceStatusText": "使用上次成功資料",
+    "lastSuccessAt": "2026-09-13 22:40",
+    "lastAttemptAt": "2026-09-13 23:30",
+    "lastAttemptResult": "部分來源取得失敗；保留最後成功快照",
+    "rentConfidence": "高",
+    "documentCompleteness": 72,
+    "unknowns": [
+      "每份租約內容",
+      "租約是否可對抗買受人",
+      "欠租狀況",
+      "租客押金承接",
+      "管理／修繕實際支出",
+      "大型修繕需求",
+      "欠費",
+      "建物重大瑕疵",
+      "全部取得成本"
+    ],
+    "positives": [
+      "起標價下毛投報 27.23%",
+      "26/27 戶出租，入住率 96.3%",
+      "租金與同棟市場行情方向一致",
+      "高砂站步行約 3–4 分鐘",
+      "收益法保守估值與起標價存在顯著價差"
+    ],
+    "gateReasons": [
+      "租約對抗力未確認",
+      "管理與修繕成本未完整確認",
+      "重大瑕疵與欠費仍待確認"
+    ],
+    "evidence": [
+      {
+        "field": "月租金收入",
+        "value": "¥1,193,500",
+        "source": "三點件解析",
+        "document": "現況調查報告書／租金明細",
+        "page": "未確認",
+        "confidence": "高",
+        "manualOverride": null
+      },
+      {
+        "field": "固定資產稅",
+        "value": "¥657,229",
+        "source": "三點件解析",
+        "document": "評價書／稅負資料",
+        "page": "未確認",
+        "confidence": "中",
+        "manualOverride": null
+      },
+      {
+        "field": "都市計畫稅",
+        "value": "¥150,539",
+        "source": "三點件解析",
+        "document": "評價書／稅負資料",
+        "page": "未確認",
+        "confidence": "中",
+        "manualOverride": null
+      },
+      {
+        "field": "入住戶數",
+        "value": "26 / 27 戶",
+        "source": "三點件解析",
+        "document": "現況調查報告書",
+        "page": "未確認",
+        "confidence": "高",
+        "manualOverride": null
+      }
+    ],
+    "marketComps": [
+      {
+        "type": "同棟租金",
+        "summary": "約 ¥46,000–¥53,000 / 戶 / 月",
+        "confidence": "中",
+        "note": "與本案實收平均約 ¥45,904 / 戶方向一致"
+      },
+      {
+        "type": "同區收益物件",
+        "summary": "8.38%–10.89% 表面利回率",
+        "confidence": "中",
+        "note": "作為收益還原區間參考，不等於本案成交價"
+      }
+    ],
+    "history": [
+      {"time":"2026-09-13 22:40","result":"success","note":"三點件主要欄位成功解析並建立快照"},
+      {"time":"2026-09-13 23:30","result":"partial","note":"部分來源讀取失敗，沿用最後成功快照，未覆蓋既有資料"}
+    ]
+  }
+]
