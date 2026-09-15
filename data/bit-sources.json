@@ -1,0 +1,20 @@
+{
+  "297562": {
+    "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=35311&saleUnitId=00000013128",
+    "sourceUrl": "https://xn--55q36pba3495a.com/auction/297562.html",
+    "verifiedAt": "2026-09-15",
+    "caseNumber": "令和08年(ケ)第38号",
+    "pdfSha256": "d33a31f3730d391be11043c986bb320fe5de6738bf0eeb6cd5ca0d71dd47d666",
+    "photoCrop": {
+      "page": 15,
+      "imageWidth": 1240,
+      "imageHeight": 1754,
+      "rect": [
+        364,
+        667,
+        588,
+        394
+      ]
+    }
+  }
+}

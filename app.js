@@ -78,26 +78,18 @@ function renderDiscover(){
 function propertyImageUrl(x){
   // V2.1.1: 由自己的 Netlify Function 讀來源案件頁並代理主圖，
   // 不再依賴 Microlink，也避免來源站防盜連造成瀏覽器直接載圖失敗。
-  return `/api/property-image?id=${encodeURIComponent(x.id)}&url=${encodeURIComponent(x.sourceUrl||'')}&title=${encodeURIComponent(x.title)}&v=260`;
+  return `/api/property-image?id=${encodeURIComponent(x.id)}&url=${encodeURIComponent(x.sourceUrl||'')}&title=${encodeURIComponent(x.title)}&v=270`;
 }
 function photoFallback(el,label,sourceUrl){
-  if(sourceUrl && el.dataset.fallbackStage!=='preview'){
-    el.dataset.fallbackStage='preview';
-    el.onerror=()=>photoFallback(el,label,null);
-    // Thum.io expects the target URL as a raw path suffix, not percent-encoded.
-    // This is only the last visual fallback; real cards prefer cached/source/three-doc photos.
-    el.src=`https://image.thum.io/get/width/900/crop/600/noanimate/${sourceUrl}`;
-    return;
-  }
   const safe=String(label||'日本法拍物件').slice(0,18).replace(/[<>&"']/g,'');
-  const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='900' height='600'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop stop-color='#18344f'/><stop offset='1' stop-color='#b98b46'/></linearGradient></defs><rect width='900' height='600' fill='url(#g)'/><path d='M220 390V250l230-145 230 145v140M315 490V295h270v195M410 490V365h80v125' fill='none' stroke='rgba(255,255,255,.25)' stroke-width='18'/><text x='46' y='540' fill='white' font-size='30' font-family='sans-serif' font-weight='700'>${safe}</text><text x='46' y='575' fill='rgba(255,255,255,.7)' font-size='18' font-family='sans-serif'>圖片來源待確認</text></svg>`;
+  const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='900' height='600'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop stop-color='#18344f'/><stop offset='1' stop-color='#b98b46'/></linearGradient></defs><rect width='900' height='600' fill='url(#g)'/><path d='M220 390V250l230-145 230 145v140M315 490V295h270v195M410 490V365h80v125' fill='none' stroke='rgba(255,255,255,.25)' stroke-width='18'/><text x='46' y='540' fill='white' font-size='30' font-family='sans-serif' font-weight='700'>${safe}</text><text x='46' y='575' fill='rgba(255,255,255,.7)' font-size='18' font-family='sans-serif'>待主圖｜BIT／三點件照片尚未取得</text></svg>`;
   el.onerror=null;el.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
 }
 function discoveryCard(x){
   const chosen=selected.has(x.id);
   return `<article class="treasure-card photo-card">
     <div class="property-photo-wrap">
-      <img class="property-photo" loading="lazy" decoding="async" src="${propertyImageUrl(x)}" alt="${escapeHtml(x.title)}" onerror="photoFallback(this,\`${escapeHtml(x.title)}\`,\`${x.sourceUrl}\`)" />
+      <img class="property-photo" loading="lazy" decoding="async" src="${propertyImageUrl(x)}" alt="${escapeHtml(x.title)}" onerror="photoFallback(this,this.alt)" />
       <div class="photo-shade"></div>
       <div class="tag-stack">${(x.tags||[]).slice(0,3).map(t=>`<span>${t}</span>`).join('')}</div>
       <div class="photo-location">${x.prefecture||'地區待確認'}${x.city?' · '+x.city:''}</div>

@@ -1,14 +1,14 @@
 {
   "name": "japan-auction-invest",
   "private": true,
-  "version": "2.6.0",
+  "version": "2.7.0",
   "type": "module",
   "engines": {
     "node": ">=22"
   },
   "dependencies": {
-    "@netlify/blobs": "^11.0.3",
-    "@napi-rs/canvas": "^1.0.9",
-    "pdfjs-dist": "^5.4.149"
+    "@netlify/blobs": "11.1.0",
+    "@napi-rs/canvas": "1.0.9",
+    "pdfjs-dist": "5.7.284"
   }
 }

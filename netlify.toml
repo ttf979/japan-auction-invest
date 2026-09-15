@@ -1,9 +1,12 @@
 [build]
-  publish = "."
+  command = "node scripts/build.mjs"
+  publish = "public"
 
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
+  external_node_modules = ["pdfjs-dist", "@napi-rs/canvas"]
+  included_files = ["node_modules/pdfjs-dist/wasm/**", "node_modules/pdfjs-dist/standard_fonts/**"]
 
 [[redirects]]
   from = "/api/cases"

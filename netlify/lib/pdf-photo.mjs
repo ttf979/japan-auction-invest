@@ -1,5 +1,7 @@
 import { getDocument, OPS, ImageKind } from 'pdfjs-dist/legacy/build/pdf.mjs';
-import { createCanvas, ImageData } from '@napi-rs/canvas';
+import { createCanvas, ImageData, loadImage } from '@napi-rs/canvas';
+import { createRequire } from 'node:module';
+import { dirname, join } from 'node:path';
 
 function objectPromise(objs,id){
   return new Promise(resolve=>{ try{ const direct=objs.get(id,v=>resolve(v)); if(direct) resolve(direct); }catch{ resolve(null); } });
@@ -23,10 +25,13 @@ async function imageObjectToJpeg(img){
   return out.toBuffer('image/jpeg',84);
 }
 
-export async function extractLargestPhotoFromPdf(pdfBuffer,{maxPages=40}={}){
-  const loading=getDocument({data:new Uint8Array(pdfBuffer),useSystemFonts:true,disableFontFace:true});
+export async function extractLargestPhotoFromPdf(pdfBuffer,{maxPages=40,verifiedCrop=null}={}){
+  const root=dirname(createRequire(import.meta.url).resolve('pdfjs-dist/package.json'));
+  const loading=getDocument({data:new Uint8Array(pdfBuffer),useSystemFonts:true,disableFontFace:true,
+    wasmUrl:join(root,'wasm')+'/',standardFontDataUrl:join(root,'standard_fonts')+'/',useWorkerFetch:false,verbosity:0});
   const pdf=await loading.promise; let best=null;
   for(let p=1;p<=Math.min(pdf.numPages,maxPages);p++){
+    if(verifiedCrop && p!==verifiedCrop.page)continue;
     const page=await pdf.getPage(p); let boost=1;
     try{ const tc=await page.getTextContent(); const txt=tc.items.map(x=>x.str||'').join(' '); if(/写真|外観|現況|建物|撮影|物件/i.test(txt)) boost=2.4; }catch{}
     const ops=await page.getOperatorList();
@@ -37,10 +42,24 @@ export async function extractLargestPhotoFromPdf(pdfBuffer,{maxPages=40}={}){
       if(!img) continue;
       const w=img.width||img.bitmap?.width||0,h=img.height||img.bitmap?.height||0; if(w<240||h<170) continue;
       const ratio=w/h; if(ratio<0.35||ratio>4.5) continue;
-      const score=w*h*boost; if(!best||score>best.score) best={img,score,page:p};
+      if(verifiedCrop && w===verifiedCrop.imageWidth && h===verifiedCrop.imageHeight){
+        const jpeg=await imageObjectToJpeg(img);
+        if(jpeg){const image=await loadImage(jpeg),[x,y,cw,ch]=verifiedCrop.rect;
+          const canvas=createCanvas(cw,ch);canvas.getContext('2d').drawImage(image,x,y,cw,ch,0,0,cw,ch);
+          best={body:canvas.toBuffer('image/jpeg',90),score:Infinity,page:p};break;}
+      }
+      // Ignore blank paper, tables and bilevel text layers in scanned court files.
+      const data=img.data, channels=data?.length/(w*h);
+      if(!data||![3,4].includes(channels))continue;
+      let middle=0,white=0,color=0,count=0;const bins=new Set();
+      const step=Math.max(1,Math.floor(w*h/15000));
+      for(let k=0;k<w*h;k+=step){const j=k*channels,v=(data[j]+data[j+1]+data[j+2])/3;count++;if(v>244)white++;if(v>30&&v<225)middle++;if(Math.max(data[j],data[j+1],data[j+2])-Math.min(data[j],data[j+1],data[j+2])>25)color++;bins.add(Math.floor(v/8));}
+      if(middle/count<0.35||white/count>0.55||color/count<0.15||bins.size<24)continue;
+      const score=w*h*boost*(middle/count)*(1-white/count);
+      if(!best||score>best.score){const body=await imageObjectToJpeg(img);if(body)best={body,score,page:p};}
     }
   }
   await loading.destroy?.();
   if(!best) return null;
-  const body=await imageObjectToJpeg(best.img); return body?{body,page:best.page,contentType:'image/jpeg'}:null;
+  return {body:best.body,page:best.page,contentType:'image/jpeg',method:'three-doc-pdf'};
 }

@@ -1,6 +1,6 @@
 {
-  "version": "2.6.0",
-  "codename": "blobs-first",
+  "version": "2.7.0",
+  "codename": "real-photo",
   "core": [
     "daily discovery",
     "BIT resolution",
@@ -11,5 +11,6 @@
     "analysis workbench",
     "saved document downloads"
   ],
-  "googleDriveRequired": false
+  "googleDriveRequired": false,
+  "photoPolicy": "bit-real-photo-v27"
 }
