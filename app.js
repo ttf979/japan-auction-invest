@@ -2,6 +2,7 @@ const $=s=>document.querySelector(s);
 const $$=s=>[...document.querySelectorAll(s)];
 const yen=n=>n==null?'未確認':'¥'+Math.round(Number(n)).toLocaleString('ja-JP');
 let discoveries=[], analyzedCases=[], currentView='discover';
+let analysisRun=0, analysisController=null;
 let selected=new Set(JSON.parse(localStorage.getItem('auction-shortlist')||'["294645"]'));
 
 init();
@@ -12,6 +13,7 @@ async function init(){
   ]);
   discoveries=Array.isArray(d)?d:[];analyzedCases=Array.isArray(c)?c:[];
   hydrateFilters();bindUI();renderDiscover();renderShortlist();updateCounts();
+  const linked=location.hash.match(/^#analyze\/(.+)$/);if(linked)runAnalysis(decodeURIComponent(linked[1]));
 }
 
 async function loadDiscoveries(){
@@ -45,6 +47,7 @@ function bindUI(){
 
 function showView(name){
   currentView=name;
+  if(name!=='analyze'){analysisController?.abort();analysisRun++;if(location.hash.startsWith('#analyze/'))history.replaceState(null,'',location.pathname+location.search);}
   $$('.view').forEach(v=>v.classList.add('hidden'));
   $('#'+name+'View').classList.remove('hidden');
   $$('.nav-tab').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));
@@ -159,37 +162,69 @@ function parseAnalysisInput(raw){
   const m=text.match(/auction\/(\d+)\.html/)||text.match(/^\s*(\d{5,8})\s*$/);
   return m?m[1]:text;
 }
-async function runAnalysis(raw){
-  const id=parseAnalysisInput(raw);if(!id){$('#analysisResult').innerHTML=empty('請貼入案件網址或案件編號');return;}
-  const full=analyzedCases.find(x=>x.id===id);
-  if(full){renderFullWorkbench(full);return;}
-  const d=discoveries.find(x=>x.id===id);
-  if(d){renderPendingWorkbench(d);await ingestCase(d.sourceUrl,d);return;}
-  const text=(raw||'').trim();
-  if(/^https?:\/\//i.test(text)){renderIngesting(id,text);await ingestCase(text,{id});return;}
-  renderUnknownWorkbench(raw,id);
+function revealAnalysis(){
+  const target=$('#analysisResult');
+  $('#analyzeView').classList.add('has-case');
+  target.focus({preventScroll:true});
+  target.scrollIntoView({behavior:'instant',block:'start'});
 }
-function renderIngesting(id,url){
-  $('#analysisResult').innerHTML=`<div class="workbench-result"><div class="result-status"><span>案件 ${escapeHtml(id)}</span><b>正在下載法院資料並存入網站資料庫…</b></div><div class="analysis-steps"><div class="done">✓ 收到案件網址</div><div class="active">↻ 尋找／下載三點件</div><div>○ 存入 Netlify Blobs</div><div>○ 從三點件抽取主圖</div><div>○ 建立分析資料</div></div><p class="muted">${escapeHtml(url)}</p></div>`;
+async function analysisFetch(url,options,signal,timeout){
+  const response=await fetch(url,{...options,signal:AbortSignal.any([signal,AbortSignal.timeout(timeout)])});
+  const data=await response.json();
+  return {response,data};
 }
-async function ingestCase(url,d={}){
-  if(!url)return;
-  renderIngesting(d.id||parseAnalysisInput(url),url);
-  try{
-    const r=await fetch('/api/ingest-case',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({url,caseId:d.id||parseAnalysisInput(url),title:d.title||'',prefecture:d.prefecture||'',city:d.city||'',court:d.court||'',price:d.price||'',type:d.type||'',area:d.area||'',bid:d.bid||''})});
-    const data=await r.json().catch(()=>({ok:false,error:`HTTP ${r.status}`}));
-    if(r.ok&&data.ok){
-      const saved=(data.documents||[]).filter(x=>x.saved&&!x.error);
-      const failed=(data.documents||[]).filter(x=>x.error);
-      if(d?.id){d.bitStatus=data.bitUrl?(saved.length?`BIT已定位／三點件已存 ${saved.length} 份`:'BIT已定位／文件待重試'):(d.bitStatus||'待BIT定位');d.imageStatus=data.mainImage?'主圖已建立':'待主圖';renderDiscover();renderShortlist();}
-      const downloads=saved.length?`<div class="doc-downloads"><b>已保存文件</b>${saved.map(x=>`<a href="${x.downloadUrl}" target="_blank" rel="noreferrer">下載 ${escapeHtml(x.type||x.documentId)} ↗</a>`).join('')}</div>`:'';
-      $('#analysisResult').innerHTML=`<div class="workbench-result ready"><div class="result-status"><span>法院資料建檔完成</span><b>${saved.length} 份已存 Netlify Blobs${data.mainImage?' · 主圖已建立':''}</b></div><div class="analysis-steps"><div class="done">✓ 基本資料</div><div class="done">✓ BIT／三點件保存</div><div class="${data.mainImage?'done':''}">${data.mainImage?'✓':'○'} 三點件主圖</div><div>○ 租金／市場行情</div><div>○ 投報／安全邊際／出價</div></div><div class="gate-box"><b>保存層：</b>Netlify Blobs<br><b>BIT：</b>${escapeHtml(data.bitUrl||'尚未定位')}<br><b>主圖來源：</b>${escapeHtml(data.mainImage?.pdfType||data.mainImage?.method||'尚未取得')}${data.mainImage?.pdfPage?`（第 ${data.mainImage.pdfPage} 頁）`:''}${failed.length?`<br><b>待重試：</b>${failed.map(x=>escapeHtml((x.type||'文件')+': '+x.error)).join('、')}`:''}</div>${downloads}<div class="workbench-actions"><button class="primary" onclick="location.reload()">更新首頁主圖</button><a href="${url}" target="_blank" rel="noreferrer" class="soft-link">查看原始案件 ↗</a></div></div>`;
-      return;
-    }
-    $('#analysisResult').innerHTML=`<div class="workbench-result"><div class="result-status"><span>建檔未完成</span><b>${escapeHtml(data.error||'unknown_error')}</b></div><div class="gate-box">這次失敗不會清除任何既有資料。系統保留最後成功快照，可稍後重試。</div></div>`;
-  }catch(e){
-    $('#analysisResult').innerHTML=`<div class="workbench-result"><div class="result-status"><span>建檔未完成</span><b>網路／Function 錯誤</b></div><div class="gate-box">${escapeHtml(e.message||String(e))}<br>既有成功資料不會被覆蓋。</div></div>`;
+async function runAnalysis(raw,{force=false}={}){
+  analysisController?.abort();
+  const run=++analysisRun;analysisController=new AbortController();const signal=analysisController.signal;
+  showView('analyze');
+  const id=parseAnalysisInput(raw);$('#analysisInput').value=id;
+  if(!id){$('#analysisResult').innerHTML=empty('請貼入案件網址或案件編號');revealAnalysis();return;}
+  history.replaceState(null,'','#analyze/'+encodeURIComponent(id));
+  const full=analyzedCases.find(x=>String(x.id)===id);
+  if(full){renderFullWorkbench(full);revealAnalysis();return;}
+  const d=discoveries.find(x=>String(x.id)===id)||{id,sourceUrl:/^https?:\/\//i.test(raw)?raw:null};
+  if(!d.sourceUrl){renderUnknownWorkbench(raw,id);revealAnalysis();return;}
+  renderCaseWorkbench(d,null,{loading:force?'正在更新法院文件…':'正在讀取已保存的案件資料…'});revealAnalysis();
+  if(!force){
+    try{
+      const {response,data}=await analysisFetch('/api/case-record?id='+encodeURIComponent(id),{cache:'no-store'},signal,12000);
+      if(run!==analysisRun)return;
+      if(response.ok&&data.record){renderCaseWorkbench(d,data.record);return;}
+    }catch(error){if(run!==analysisRun||signal.aborted)return;}
   }
+  await ingestCase(d.sourceUrl,d,run,signal);
+}
+async function ingestCase(url,d,run,signal){
+  if(run!==analysisRun)return;
+  renderCaseWorkbench(d,null,{loading:'正在取得法院文件，最多約 45 秒…'});
+  try{
+    const {response,data}=await analysisFetch('/api/ingest-case',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({url,caseId:d.id,title:d.title||'',prefecture:d.prefecture||'',city:d.city||'',court:d.court||'',price:d.price??null,type:d.type||'',area:d.area??null,bid:d.bid||''})},signal,45000);
+    if(run!==analysisRun)return;
+    if(response.ok&&(data.ok||(data.documents||[]).some(x=>x.saved))){
+      renderCaseWorkbench(d,data);return;
+    }
+    renderCaseWorkbench(d,null,{error:'暫時無法取得法院文件。你仍可查看基本資料與來源，或按下重試。'});
+  }catch(error){
+    if(run!==analysisRun||signal.aborted)return;
+    renderCaseWorkbench(d,null,{error:error.name==='TimeoutError'?'讀取逾時，請按「重試讀取」。':'連線失敗，請按「重試讀取」。'});
+  }
+}
+function renderCaseWorkbench(d,record,{loading='',error=''}={}){
+  const hints=record?.hints||{},item={...hints,...d};
+  const saved=(record?.documents||[]).filter(x=>x.saved&&x.contentType==='application/pdf');
+  const ready=!!record?.mainImage||!!d.imageReady;
+  const source=item.sourceUrl||record?.sourceUrl||'';
+  const title=item.title||'案件 '+item.id;
+  $('#analysisResult').innerHTML=`<div class="workbench-result ${record?'ready':''}" data-analysis-case="${escapeHtml(item.id)}">
+    <div class="result-status" role="status"><span>案件 #${escapeHtml(item.id)}</span><b>${escapeHtml(loading||error||(saved.length?'案件資料已載入':'基本資料已載入'))}</b></div>
+    <div class="analysis-case-head">${ready?`<img src="${propertyImageUrl(item)}" alt="${escapeHtml(title)}" onerror="photoFallback(this,this.alt)">`:''}<div><h2>${escapeHtml(title)}</h2><p>${escapeHtml(item.address||[item.prefecture,item.city].filter(Boolean).join(''))}</p><p>${escapeHtml(item.court||'法院待確認')}｜${escapeHtml(item.caseNumber||'事件編號待確認')}</p></div></div>
+    <div class="decision-kpis"><div><span>起標價</span><b>${yen(item.price)}</b></div><div><span>類型</span><b>${escapeHtml(item.type||'待確認')}</b></div><div><span>面積</span><b>${item.area!=null?escapeHtml(item.area)+' m²':'待確認'}</b></div><div><span>屋齡</span><b>${item.age!=null?escapeHtml(item.age)+' 年':'待確認'}</b></div></div>
+    <p class="analysis-bid">入札：${escapeHtml(item.bid||'待確認')}</p>
+    <div class="doc-downloads"><b>法院文件 ${saved.length?`· 已保存 ${saved.length} 份`:''}</b>${saved.map(x=>`<a href="${escapeHtml(x.downloadUrl)}" target="_blank" rel="noreferrer">開啟 ${escapeHtml(x.type||'三點件')} ↗</a>`).join('')}${!saved.length&&item.bitUrl?`<a href="${escapeHtml(item.bitUrl)}" target="_blank" rel="noreferrer">開啟法院三點件 ↗</a>`:''}</div>
+    <div class="gate-box"><b>深度分析待完成</b><p>法院文件與照片已取得的狀態，不代表投資分析已完成。占用、租約、欠費、瑕疵，以及租金與市場比較仍待查核；目前不提供未經確認的投報率或出價建議。</p></div>
+    <div class="workbench-actions"><button id="analysisRetry" class="primary" ${loading?'disabled':''}>${loading?'資料讀取中…':error?'重試讀取':'重新取得法院文件'}</button>${source?`<a href="${escapeHtml(source)}" target="_blank" rel="noreferrer" class="soft-link">原始案件 ↗</a>`:''}</div>
+  </div>`;
+  $('#analysisRetry').onclick=()=>runAnalysis(item.id,{force:true});
 }
 function renderFullWorkbench(c){
   $('#analysisResult').innerHTML=`<div class="workbench-result ready"><div class="result-status"><span>已有分析資料</span><b>${c.rating}｜${c.ratingLabel}</b></div><div class="full-head"><div><h2>${c.title}</h2><p>${c.court}｜${c.caseNo}</p></div><div class="grade large">${c.rating}</div></div><div class="decision-kpis"><div><span>起標價</span><b>${yen(c.startPrice)}</b></div><div><span>年租金</span><b>${yen(c.annualRent)}</b></div><div><span>毛投報</span><b>${c.grossYield}%</b></div><div><span>建議競標上緣</span><b>${yen(c.recommendedBidHigh)}</b></div><div><span>最高紅線</span><b>${yen(c.maxBid)}</b></div></div><div class="gate-box"><b>目前 Gate：</b>${c.gateReasons.join('、')}</div></div>`;

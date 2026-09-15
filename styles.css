@@ -21,3 +21,18 @@
 .doc-downloads{margin:14px 0;padding:12px;border:1px solid var(--line);border-radius:12px;background:#f8fafb;display:flex;gap:8px;align-items:center;flex-wrap:wrap}.doc-downloads b{margin-right:4px;font-size:12px}.doc-downloads a{font-size:11px;font-weight:800;color:var(--navy);text-decoration:none;border:1px solid #d9e0e6;background:white;border-radius:9px;padding:7px 9px}
 
 .document-links{display:flex;gap:16px;flex-wrap:wrap;margin:12px 0;font-size:13px}.document-links a{color:#234e69;text-decoration:none}.treasure-head select{padding:10px;border:1px solid #ddd;border-radius:10px;background:white;color:#18344f}
+
+/* Keep the selected case visible when an analysis entry point is clicked. */
+#analysisResult{scroll-margin-top:140px;outline:none}
+#analyzeView.has-case .analysis-layout{display:block}
+#analyzeView.has-case .analysis-flow,#analyzeView.has-case .analysis-intro>p,#analyzeView.has-case .quick-picks{display:none}
+#analyzeView.has-case .analysis-intro{padding:16px 22px}
+#analyzeView.has-case .analysis-intro h1{font-size:22px}
+.analysis-case-head{display:flex;gap:20px;align-items:center;margin-bottom:20px}
+.analysis-case-head img{width:240px;height:170px;object-fit:contain;background:#f5f4ef;border-radius:12px}
+.analysis-case-head h2{font-size:23px;margin:0 0 10px}
+.analysis-case-head p,.analysis-bid{font-size:13px;color:#667085;line-height:1.6;overflow-wrap:anywhere}
+.workbench-actions{flex-wrap:wrap;margin-top:18px}
+.workbench-actions button:disabled{opacity:.65;cursor:wait}
+.gate-box p{line-height:1.7;margin:6px 0 0}
+@media(max-width:720px){.analysis-case-head{display:block}.analysis-case-head img{width:100%;height:200px;margin-bottom:12px}.analysis-case-head h2{font-size:20px}.result-status{flex-direction:column;gap:5px}}
