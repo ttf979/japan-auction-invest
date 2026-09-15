@@ -1,7 +1,7 @@
 [
   {
     "id": "297274",
-    "published": "2026-9-9",
+    "published": "2026-09-09",
     "price": 13060000,
     "type": "戶建",
     "area": 93.57,
@@ -23,11 +23,20 @@
     "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=31711&saleUnitId=00000014843",
     "imageStatus": "待主圖",
     "documentCount": 0,
-    "bitStatus": "BIT已定位／三點件可下載"
+    "bitStatus": "BIT已定位／三點件可下載",
+    "bidStart": "2026-10-06",
+    "bidEnd": "2026-10-13",
+    "openingDate": "2026-10-20",
+    "propertyUse": "居宅",
+    "fieldSource": {
+      "url": "https://xn--55q36pba3495a.com/auction/297274.html",
+      "level": "secondary",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00"
+    }
   },
   {
     "id": "297467",
-    "published": "2026-9-10",
+    "published": "2026-09-10",
     "price": 12250000,
     "type": "戶建",
     "area": 117.58,
@@ -49,11 +58,20 @@
     "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=36411&saleUnitId=00000006921",
     "imageStatus": "待主圖",
     "documentCount": 0,
-    "bitStatus": "BIT已定位／三點件可下載"
+    "bitStatus": "BIT已定位／三點件可下載",
+    "bidStart": "2026-09-29",
+    "bidEnd": "2026-10-06",
+    "openingDate": "2026-10-13",
+    "propertyUse": "居宅",
+    "fieldSource": {
+      "url": "https://xn--55q36pba3495a.com/auction/297467.html",
+      "level": "secondary",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00"
+    }
   },
   {
     "id": "297473",
-    "published": "2026-9-10",
+    "published": "2026-09-10",
     "price": 16330000,
     "type": "戶建",
     "area": 114.27,
@@ -75,11 +93,20 @@
     "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=36411&saleUnitId=00000006930",
     "imageStatus": "待主圖",
     "documentCount": 0,
-    "bitStatus": "BIT已定位／三點件可下載"
+    "bitStatus": "BIT已定位／三點件可下載",
+    "bidStart": "2026-09-29",
+    "bidEnd": "2026-10-06",
+    "openingDate": "2026-10-13",
+    "propertyUse": "居宅",
+    "fieldSource": {
+      "url": "https://xn--55q36pba3495a.com/auction/297473.html",
+      "level": "secondary",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00"
+    }
   },
   {
     "id": "297558",
-    "published": "2026-9-11",
+    "published": "2026-09-11",
     "price": 6153000,
     "type": "戸建て",
     "area": 163.16,
@@ -101,11 +128,20 @@
     "sourceVerifiedAt": "2026-09-15T14:38:03.908095+00:00",
     "caseNumber": "令和08年(ケ)第30号",
     "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=35311&saleUnitId=00000013144",
-    "documentCount": 0
+    "documentCount": 0,
+    "bidStart": "2026-10-01",
+    "bidEnd": "2026-10-08",
+    "openingDate": "2026-10-15",
+    "propertyUse": "居宅",
+    "fieldSource": {
+      "url": "https://xn--55q36pba3495a.com/auction/297558.html",
+      "level": "secondary",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00"
+    }
   },
   {
     "id": "297559",
-    "published": "2026-9-11",
+    "published": "2026-09-11",
     "price": 2058000,
     "type": "戸建て",
     "area": 109.93,
@@ -127,11 +163,20 @@
     "sourceVerifiedAt": "2026-09-15T14:38:03.908095+00:00",
     "caseNumber": "令和07年(ケ)第88号",
     "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=35311&saleUnitId=00000013146",
-    "documentCount": 0
+    "documentCount": 0,
+    "bidStart": "2026-10-01",
+    "bidEnd": "2026-10-08",
+    "openingDate": "2026-10-15",
+    "propertyUse": "居宅",
+    "fieldSource": {
+      "url": "https://xn--55q36pba3495a.com/auction/297559.html",
+      "level": "secondary",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00"
+    }
   },
   {
     "id": "297560",
-    "published": "2026-9-11",
+    "published": "2026-09-11",
     "price": 4115000,
     "type": "戸建て",
     "area": 103.92,
@@ -153,11 +198,20 @@
     "sourceVerifiedAt": "2026-09-15T14:38:03.908095+00:00",
     "caseNumber": "令和08年(ヌ)第21号",
     "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=35311&saleUnitId=00000013149",
-    "documentCount": 0
+    "documentCount": 0,
+    "bidStart": "2026-10-01",
+    "bidEnd": "2026-10-08",
+    "openingDate": "2026-10-15",
+    "propertyUse": "居宅",
+    "fieldSource": {
+      "url": "https://xn--55q36pba3495a.com/auction/297560.html",
+      "level": "secondary",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00"
+    }
   },
   {
     "id": "297561",
-    "published": "2026-9-11",
+    "published": "2026-09-11",
     "price": 12665000,
     "type": "戸建て・事業用",
     "area": 993.49,
@@ -179,11 +233,20 @@
     "sourceVerifiedAt": "2026-09-15T14:38:03.908095+00:00",
     "caseNumber": "令和07年(ケ)第89号",
     "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=35311&saleUnitId=00000013151",
-    "documentCount": 0
+    "documentCount": 0,
+    "bidStart": "2026-10-01",
+    "bidEnd": "2026-10-08",
+    "openingDate": "2026-10-15",
+    "propertyUse": "デイサービスセンター・グループホーム・事務所",
+    "fieldSource": {
+      "url": "https://xn--55q36pba3495a.com/auction/297561.html",
+      "level": "secondary",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00"
+    }
   },
   {
     "id": "297562",
-    "published": "2026-9-11",
+    "published": "2026-09-11",
     "price": 10000,
     "type": "マンション",
     "area": 57.17,
@@ -208,11 +271,20 @@
     "sourceVerifiedAt": "2026-09-15T14:38:03.908095+00:00",
     "caseNumber": "令和08年(ケ)第38号",
     "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=35311&saleUnitId=00000013128",
-    "documentCount": 0
+    "documentCount": 0,
+    "bidStart": "2026-10-01",
+    "bidEnd": "2026-10-08",
+    "openingDate": "2026-10-15",
+    "propertyUse": "居宅",
+    "fieldSource": {
+      "url": "https://xn--55q36pba3495a.com/auction/297562.html",
+      "level": "secondary",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00"
+    }
   },
   {
     "id": "297563",
-    "published": "2026-9-11",
+    "published": "2026-09-11",
     "price": 30000,
     "type": "マンション",
     "area": 60.25,
@@ -234,11 +306,20 @@
     "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=35311&saleUnitId=00000013147",
     "imageStatus": "待主圖",
     "documentCount": 0,
-    "bitStatus": "BIT已定位／三點件可下載"
+    "bitStatus": "BIT已定位／三點件可下載",
+    "bidStart": "2026-10-01",
+    "bidEnd": "2026-10-08",
+    "openingDate": "2026-10-15",
+    "propertyUse": "居宅",
+    "fieldSource": {
+      "url": "https://xn--55q36pba3495a.com/auction/297563.html",
+      "level": "secondary",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00"
+    }
   },
   {
     "id": "297566",
-    "published": "2026-9-11",
+    "published": "2026-09-11",
     "price": 1159000,
     "type": "戸建て",
     "area": 77.02,
@@ -263,11 +344,20 @@
     "sourceVerifiedAt": "2026-09-15T14:38:03.908095+00:00",
     "caseNumber": "令和07年(ヌ)第10号",
     "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=35331&saleUnitId=00000003946",
-    "documentCount": 0
+    "documentCount": 0,
+    "bidStart": "2026-10-01",
+    "bidEnd": "2026-10-08",
+    "openingDate": "2026-10-14",
+    "propertyUse": "居宅",
+    "fieldSource": {
+      "url": "https://xn--55q36pba3495a.com/auction/297566.html",
+      "level": "secondary",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00"
+    }
   },
   {
     "id": "297567",
-    "published": "2026-9-11",
+    "published": "2026-09-11",
     "price": 2577000,
     "type": "戸建て",
     "area": 76.71,
@@ -292,11 +382,20 @@
     "sourceVerifiedAt": "2026-09-15T14:38:03.908095+00:00",
     "caseNumber": "令和07年(ケ)第1号",
     "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=35331&saleUnitId=00000003949",
-    "documentCount": 0
+    "documentCount": 0,
+    "bidStart": "2026-10-01",
+    "bidEnd": "2026-10-08",
+    "openingDate": "2026-10-14",
+    "propertyUse": "居宅",
+    "fieldSource": {
+      "url": "https://xn--55q36pba3495a.com/auction/297567.html",
+      "level": "secondary",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00"
+    }
   },
   {
     "id": "297578",
-    "published": "2026-9-11",
+    "published": "2026-09-11",
     "price": 4950000,
     "type": "戸建て",
     "area": 133.6,
@@ -318,11 +417,20 @@
     "sourceVerifiedAt": "2026-09-15T14:38:03.908095+00:00",
     "caseNumber": "令和08年(ケ)第18号",
     "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=39311&saleUnitId=00000008492",
-    "documentCount": 0
+    "documentCount": 0,
+    "bidStart": "2026-10-09",
+    "bidEnd": "2026-10-19",
+    "openingDate": "2026-10-21",
+    "propertyUse": "居宅",
+    "fieldSource": {
+      "url": "https://xn--55q36pba3495a.com/auction/297578.html",
+      "level": "secondary",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00"
+    }
   },
   {
     "id": "297579",
-    "published": "2026-9-11",
+    "published": "2026-09-11",
     "price": 15530000,
     "type": "戸建て",
     "area": 96.88,
@@ -344,11 +452,20 @@
     "sourceVerifiedAt": "2026-09-15T14:38:03.908095+00:00",
     "caseNumber": "令和08年(ケ)第11号",
     "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=39311&saleUnitId=00000008499",
-    "documentCount": 0
+    "documentCount": 0,
+    "bidStart": "2026-10-09",
+    "bidEnd": "2026-10-19",
+    "openingDate": "2026-10-21",
+    "propertyUse": "居宅",
+    "fieldSource": {
+      "url": "https://xn--55q36pba3495a.com/auction/297579.html",
+      "level": "secondary",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00"
+    }
   },
   {
     "id": "297580",
-    "published": "2026-9-11",
+    "published": "2026-09-11",
     "price": 5620000,
     "type": "マンション",
     "area": 81.83,
@@ -370,11 +487,20 @@
     "sourceVerifiedAt": "2026-09-15T14:38:03.908095+00:00",
     "caseNumber": "令和08年(ケ)第10号",
     "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=39311&saleUnitId=00000008493",
-    "documentCount": 0
+    "documentCount": 0,
+    "bidStart": "2026-10-09",
+    "bidEnd": "2026-10-19",
+    "openingDate": "2026-10-21",
+    "propertyUse": "居宅",
+    "fieldSource": {
+      "url": "https://xn--55q36pba3495a.com/auction/297580.html",
+      "level": "secondary",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00"
+    }
   },
   {
     "id": "295392",
-    "published": "2026-8-5",
+    "published": "2026-08-05",
     "price": 29604000,
     "type": "戶建",
     "area": 743.68,
@@ -396,11 +522,31 @@
     "bitUrl": null,
     "imageStatus": "待主圖",
     "documentCount": 0,
-    "bitStatus": "已結束／法院文件下架"
+    "bitStatus": "已結束／法院文件下架",
+    "bidStart": "2026-08-20",
+    "bidEnd": "2026-08-27",
+    "openingDate": "2026-09-03",
+    "propertyUse": "工場",
+    "fieldSource": {
+      "url": "https://xn--55q36pba3495a.com/auction/295392.html",
+      "level": "secondary",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00"
+    },
+    "outcome": {
+      "status": "sold",
+      "salePrice": 25888888,
+      "sourceUrl": "https://xn--55q36pba3495a.com/auction/295392.html",
+      "sourceLevel": "secondary",
+      "rawLabel": "売却価額",
+      "rawStatus": "売却",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00",
+      "nextCheckAt": "2026-09-15T00:00:00Z",
+      "verification": "待法院核對"
+    }
   },
   {
     "id": "295393",
-    "published": "2026-8-5",
+    "published": "2026-08-05",
     "price": 1778000,
     "type": "戶建",
     "area": 88.5,
@@ -422,11 +568,31 @@
     "bitUrl": null,
     "imageStatus": "待主圖",
     "documentCount": 0,
-    "bitStatus": "已結束／法院文件下架"
+    "bitStatus": "已結束／法院文件下架",
+    "bidStart": "2026-08-20",
+    "bidEnd": "2026-08-27",
+    "openingDate": "2026-09-03",
+    "propertyUse": "居宅",
+    "fieldSource": {
+      "url": "https://xn--55q36pba3495a.com/auction/295393.html",
+      "level": "secondary",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00"
+    },
+    "outcome": {
+      "status": "unsold",
+      "salePrice": null,
+      "sourceUrl": "https://xn--55q36pba3495a.com/auction/295393.html",
+      "sourceLevel": "secondary",
+      "rawLabel": "開札結果",
+      "rawStatus": "不売",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00",
+      "nextCheckAt": "2026-09-15T00:00:00Z",
+      "verification": "待法院核對"
+    }
   },
   {
     "id": "296929",
-    "published": "2026-9-3",
+    "published": "2026-09-03",
     "price": 250000,
     "type": "戶建",
     "area": 159.69,
@@ -448,11 +614,31 @@
     "bitUrl": null,
     "imageStatus": "待主圖",
     "documentCount": 0,
-    "bitStatus": "已結束／法院文件下架"
+    "bitStatus": "已結束／法院文件下架",
+    "bidStart": "2026-09-03",
+    "bidEnd": null,
+    "openingDate": null,
+    "propertyUse": "居宅",
+    "fieldSource": {
+      "url": "https://xn--55q36pba3495a.com/auction/296929.html",
+      "level": "secondary",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00"
+    },
+    "outcome": {
+      "status": "unpublished",
+      "salePrice": null,
+      "sourceUrl": "https://xn--55q36pba3495a.com/auction/296929.html",
+      "sourceLevel": "secondary",
+      "rawLabel": "開札結果",
+      "rawStatus": "",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00",
+      "nextCheckAt": "2026-09-15T00:00:00Z",
+      "verification": "待法院核對"
+    }
   },
   {
     "id": "297262",
-    "published": "2026-9-9",
+    "published": "2026-09-09",
     "price": 2155000,
     "type": "マンション",
     "area": 173.16,
@@ -474,11 +660,31 @@
     "bitUrl": null,
     "imageStatus": "待主圖",
     "documentCount": 0,
-    "bitStatus": "已結束／法院文件下架"
+    "bitStatus": "已結束／法院文件下架",
+    "bidStart": "2026-09-09",
+    "bidEnd": "2026-09-11",
+    "openingDate": null,
+    "propertyUse": "居宅",
+    "fieldSource": {
+      "url": "https://xn--55q36pba3495a.com/auction/297262.html",
+      "level": "secondary",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00"
+    },
+    "outcome": {
+      "status": "unpublished",
+      "salePrice": null,
+      "sourceUrl": "https://xn--55q36pba3495a.com/auction/297262.html",
+      "sourceLevel": "secondary",
+      "rawLabel": "開札結果",
+      "rawStatus": "",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00",
+      "nextCheckAt": "2026-09-15T00:00:00Z",
+      "verification": "待法院核對"
+    }
   },
   {
     "id": "297581",
-    "published": "2026-9-14",
+    "published": "2026-09-14",
     "price": 8310000,
     "type": null,
     "area": 307.2,
@@ -500,11 +706,31 @@
     "sourceVerifiedAt": "2026-09-15T14:38:03.908095+00:00",
     "caseNumber": "令和07年(ケ)第38号",
     "bitUrl": null,
-    "documentCount": 0
+    "documentCount": 0,
+    "bidStart": "2026-09-14",
+    "bidEnd": "2026-09-15",
+    "openingDate": null,
+    "propertyUse": "倉庫",
+    "fieldSource": {
+      "url": "https://xn--55q36pba3495a.com/auction/297581.html",
+      "level": "secondary",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00"
+    },
+    "outcome": {
+      "status": "unpublished",
+      "salePrice": null,
+      "sourceUrl": "https://xn--55q36pba3495a.com/auction/297581.html",
+      "sourceLevel": "secondary",
+      "rawLabel": "開札結果",
+      "rawStatus": "",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00",
+      "nextCheckAt": "2026-09-15T00:00:00Z",
+      "verification": "待法院核對"
+    }
   },
   {
     "id": "297582",
-    "published": "2026-9-14",
+    "published": "2026-09-14",
     "price": 8230000,
     "type": null,
     "area": 169.82,
@@ -526,11 +752,31 @@
     "sourceVerifiedAt": "2026-09-15T14:38:03.908095+00:00",
     "caseNumber": "令和07年(ケ)第65号",
     "bitUrl": null,
-    "documentCount": 0
+    "documentCount": 0,
+    "bidStart": "2026-09-14",
+    "bidEnd": "2026-09-15",
+    "openingDate": null,
+    "propertyUse": "居宅",
+    "fieldSource": {
+      "url": "https://xn--55q36pba3495a.com/auction/297582.html",
+      "level": "secondary",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00"
+    },
+    "outcome": {
+      "status": "unpublished",
+      "salePrice": null,
+      "sourceUrl": "https://xn--55q36pba3495a.com/auction/297582.html",
+      "sourceLevel": "secondary",
+      "rawLabel": "開札結果",
+      "rawStatus": "",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00",
+      "nextCheckAt": "2026-09-15T00:00:00Z",
+      "verification": "待法院核對"
+    }
   },
   {
     "id": "297583",
-    "published": "2026-9-14",
+    "published": "2026-09-14",
     "price": 180000,
     "type": "戸建て",
     "area": 63.1,
@@ -552,6 +798,26 @@
     "sourceVerifiedAt": "2026-09-15T14:38:03.908095+00:00",
     "caseNumber": "令和07年(ヌ)第35号",
     "bitUrl": null,
-    "documentCount": 0
+    "documentCount": 0,
+    "bidStart": "2026-09-14",
+    "bidEnd": "2026-09-15",
+    "openingDate": null,
+    "propertyUse": "居宅",
+    "fieldSource": {
+      "url": "https://xn--55q36pba3495a.com/auction/297583.html",
+      "level": "secondary",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00"
+    },
+    "outcome": {
+      "status": "unpublished",
+      "salePrice": null,
+      "sourceUrl": "https://xn--55q36pba3495a.com/auction/297583.html",
+      "sourceLevel": "secondary",
+      "rawLabel": "開札結果",
+      "rawStatus": "",
+      "checkedAt": "2026-09-15T14:38:03.908095+00:00",
+      "nextCheckAt": "2026-09-15T00:00:00Z",
+      "verification": "待法院核對"
+    }
   }
 ]

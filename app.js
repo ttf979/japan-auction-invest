@@ -1,9 +1,10 @@
 const $=s=>document.querySelector(s);
 const $$=s=>[...document.querySelectorAll(s)];
 const yen=n=>n==null?'未確認':'¥'+Math.round(Number(n)).toLocaleString('ja-JP');
-let discoveries=[], analyzedCases=[], currentView='discover';
+const displayTime=v=>v&&Number.isFinite(Date.parse(v))?new Date(v).toLocaleString('zh-TW',{timeZone:'Asia/Taipei',hour12:false}):'尚未執行';
+let discoveries=[], analyzedCases=[], currentView='auto';
 let analysisRun=0, analysisController=null;
-let selected=new Set(JSON.parse(localStorage.getItem('auction-shortlist')||'["294645"]'));
+let selected=new Set(JSON.parse(localStorage.getItem('auction-shortlist')||'[]'));
 
 init();
 async function init(){
@@ -12,7 +13,7 @@ async function init(){
     fetch('data/cases.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>[])
   ]);
   discoveries=Array.isArray(d)?d:[];analyzedCases=Array.isArray(c)?c:[];
-  hydrateFilters();bindUI();renderDiscover();renderShortlist();updateCounts();
+  hydrateFilters();bindUI();renderDiscover();renderShortlist();updateCounts();renderResearch();showView('auto');
   const linked=location.hash.match(/^#analyze\/(.+)$/);if(linked)runAnalysis(decodeURIComponent(linked[1]));
 }
 
@@ -30,13 +31,14 @@ async function refreshDiscoveries(){
     const r=await fetch('/api/refresh-discoveries',{method:'POST'});
     const data=await r.json().catch(()=>({}));
     discoveries=await loadDiscoveries();
-    hydrateFilters(true);renderDiscover();renderShortlist();updateCounts();
+    hydrateFilters(true);renderDiscover();renderShortlist();updateCounts();renderResearch();
     b.textContent=data.added?`新增 ${data.added} 筆`:'已更新';
   }catch{b.textContent='更新失敗';}
   setTimeout(()=>{b.disabled=false;b.textContent=old},2200);
 }
 
 function bindUI(){
+  ['#endedPref','#endedType'].forEach(s=>$(s).addEventListener('input',renderResearch));
   $$('[data-nav]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.nav)));
   ['#discoverSearch','#discoverPref','#discoverType','#discoverPrice','#discoverSort','#discoverStatus'].forEach(s=>$(s).addEventListener('input',renderDiscover));
   $('#analysisGo').addEventListener('click',()=>runAnalysis($('#analysisInput').value));
@@ -52,6 +54,7 @@ function showView(name){
   $('#'+name+'View').classList.remove('hidden');
   $$('.nav-tab').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));
   if(name==='shortlist')renderShortlist();
+  if(name==='auto'||name==='ended')renderResearch();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function hydrateFilters(reset=false){
@@ -71,13 +74,13 @@ function updateCounts(){
 function renderDiscover(){
   const term=($('#discoverSearch').value||'').trim().toLowerCase();
   const pref=$('#discoverPref').value,type=$('#discoverType').value,max=Number($('#discoverPrice').value||0),sort=$('#discoverSort').value;
-  let arr=discoveries.filter(x=>!term||[x.id,x.title,x.prefecture,x.city,x.address,x.court,x.station].join(' ').toLowerCase().includes(term));
+  let arr=discoveries.filter(x=>!ResearchRules.closed(x)).filter(x=>!term||[x.id,x.title,x.prefecture,x.city,x.address,x.court,x.station].join(' ').toLowerCase().includes(term));
   const status=$('#discoverStatus').value;
   if(status==='active')arr=arr.filter(x=>x.availability!=='ended');
   if(status==='photo')arr=arr.filter(x=>x.imageReady);
   if(status==='pending')arr=arr.filter(x=>!x.imageReady&&x.availability!=='ended');
   if(status==='ended')arr=arr.filter(x=>x.availability==='ended');
-  if(pref)arr=arr.filter(x=>x.prefecture===pref);if(type)arr=arr.filter(x=>x.type===type);if(max)arr=arr.filter(x=>x.price<=max);
+  if(pref)arr=arr.filter(x=>x.prefecture===pref);if(type)arr=arr.filter(x=>x.type===type);if(max)arr=arr.filter(x=>ResearchRules.finite(x.price)&&Number(x.price)<=max);
   arr=[...arr].sort((a,b)=>sort==='cheap'?(Number(a.price)||9e15)-(Number(b.price)||9e15):sort==='area'?(Number(b.area)||0)-(Number(a.area)||0):sort==='age'?(Number(a.age)||999)-(Number(b.age)||999):String(b.published||'').localeCompare(String(a.published||'')));
   $('#resultText').textContent=` · ${arr.length} 件`;
   $('#discoverGrid').innerHTML=arr.map(discoveryCard).join('')||empty('沒有符合條件的物件');
@@ -129,7 +132,7 @@ function bindDiscoveryActions(){
 function toggleShortlist(id){
   selected.has(id)?selected.delete(id):selected.add(id);
   localStorage.setItem('auction-shortlist',JSON.stringify([...selected]));
-  updateCounts();renderDiscover();renderShortlist();
+  updateCounts();renderDiscover();renderShortlist();renderResearch();
 }
 function renderShortlist(){
   const items=[...selected].map(id=>analyzedCases.find(x=>x.id===id)||discoveries.find(x=>x.id===id)).filter(Boolean);
@@ -239,3 +242,22 @@ function renderUnknownWorkbench(raw,id){
 }
 function empty(t){return `<div class="empty-state"><div>⌕</div><b>${t}</b></div>`}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+
+function renderResearch(){
+ const live=discoveries.filter(x=>!ResearchRules.closed(x)).map(x=>({...x,research:ResearchRules.screen(x)})).sort((a,b)=>b.research.score-a.research.score||a.id.localeCompare(b.id));
+ const eligible=live.filter(x=>x.research.eligible);
+ $('#autoSummary').textContent=`目前收錄 ${live.length} 件未結束物件，${eligible.length} 件符合均衡初篩；全日本、不限預算。收錄範圍尚非全國完整清單。`;
+ $('#autoGrid').innerHTML=eligible.map(x=>`<div class="research-item"><div class="research-note"><b>值得研究 · 研究優先分 ${x.research.score}/100</b><ul>${x.research.reasons.map(t=>`<li>${escapeHtml(t)}</li>`).join('')}</ul><details><summary>待查事項</summary><ul>${x.research.pending.map(t=>`<li>${escapeHtml(t)}</li>`).join('')}</ul></details></div>${discoveryCard(x)}</div>`).join('')||empty('目前沒有符合初篩條件的物件');
+ $('#observationList').innerHTML=live.filter(x=>!x.research.eligible).map(x=>`<p><b>#${escapeHtml(x.id)} ${escapeHtml(x.title)}</b> · ${x.research.label}（${x.research.score}/100）<br>${x.research.reasons.map(escapeHtml).join('；')}<br>待查：${x.research.pending.map(escapeHtml).join('；')}</p>`).join('');
+ const ended=discoveries.filter(x=>ResearchRules.closed(x));
+ const pref=$('#endedPref').value,type=$('#endedType').value;
+ const prefs=[...new Set(ended.map(x=>x.prefecture).filter(Boolean))].sort();
+ $('#endedPref').innerHTML='<option value="">全部地區</option>'+prefs.map(p=>`<option ${p===pref?'selected':''}>${escapeHtml(p)}</option>`).join('');
+ const groups={};for(const x of ended){const k=(x.prefecture||'地區待確認')+' · '+ResearchRules.category(x);groups[k]=(groups[k]||0)+1;}
+ $('#endedSummary').textContent=Object.entries(groups).map(([k,n])=>`${k} ${n} 件`).join(' ｜ ');
+ $('#endedGrid').innerHTML=ended.filter(x=>(!pref||x.prefecture===pref)&&(!type||ResearchRules.category(x)===type)).map(x=>{
+ const o=x.outcome||{},labels={sold:'已公布成交',unsold:'不売（未售出）',withdrawn:'取下／取消',unpublished:'未取得結果'};
+ return `<article class="short-card"><span class="case-id">#${escapeHtml(x.id)} · ${ResearchRules.category(x)}</span><h3>${escapeHtml(x.title)}</h3><p>${escapeHtml(x.prefecture||'')} · ${escapeHtml(x.city||'')}</p><h2>${o.status==='sold'&&ResearchRules.finite(o.salePrice)?yen(o.salePrice):labels[o.status]||'待追蹤'}</h2><p>${o.sourceLevel==='secondary'?'來源站結果 · 待法院核對':'尚無可核對結果'}</p><p>起標價 ${yen(x.price)} · 開標日 ${escapeHtml(x.openingDate||'待確認')}</p><p>最近查詢 ${escapeHtml(displayTime(o.lastAttemptAt||o.checkedAt))}<br>下次追蹤 ${escapeHtml(o.nextCheckAt?displayTime(o.nextCheckAt):'排入每日檢查')}</p>${o.lastAttemptStatus==='fetch_failed'?'<p class="error">最近抓取失敗，保留先前資料並排程重試</p>':''}<a href="${escapeHtml(x.sourceUrl)}" target="_blank" rel="noreferrer">結果來源 ↗</a><p>原文：${escapeHtml(o.rawLabel||'')} ${escapeHtml(o.rawStatus||'')}</p><button class="soft" data-analyze-card="${escapeHtml(x.id)}">查看案件</button></article>`;
+ }).join('')||empty('此分類沒有結束物件');
+ bindDiscoveryActions();
+}

@@ -16,7 +16,7 @@ function htmlFromMarkdown(md=''){
     .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)[^)]*\)/g,'<a href="$2">$1</a>');
 }
 
-async function fetchText(url){
+export async function fetchText(url){
   const ctrl=new AbortController(), t=setTimeout(()=>ctrl.abort(),12000);
   try{
     const r=await fetch(url,{headers:{'user-agent':UA,'accept-language':'ja,en;q=0.8','cache-control':'no-cache'},signal:ctrl.signal,redirect:'follow'});
@@ -41,7 +41,7 @@ function auctionLinks(html){
   const out=[]; const re=/<a\b[^>]*href=["']([^"']*\/auction\/(\d+)\.html[^"']*)["'][^>]*>([\s\S]*?)<\/a>/ig; let m;
   while((m=re.exec(html))){
     let sourceUrl; try{sourceUrl=new URL(m[1],HOME).href;}catch{continue;}
-    const around=strip(html.slice(Math.max(0,m.index-650),Math.min(html.length,re.lastIndex+900)));
+    const around=strip(m[3]);
     const title=strip(m[3])||`案件 ${m[2]}`;
     const prefecture=(around.match(/(北海道|東京都|(?:京都|大阪)府|.{2,4}県)/)||[])[1]||null;
     const city=(around.match(/(?:都|道|府|県)([^\s　]{2,12}?[市区町村])/ )||[])[1]||null;
@@ -57,7 +57,7 @@ export async function runDiscovery(){
   const current=await store.get('current',{type:'json'}).catch(()=>null)||[];
   const map=new Map(current.map(x=>[String(x.id),x]));
   let added=0;
-  for(const x of incoming){const prev=map.get(String(x.id));if(!prev){added++;map.set(String(x.id),x);}else map.set(String(x.id),{...prev,...Object.fromEntries(Object.entries(x).filter(([,v])=>v!=null&&v!=='')),discoveredAt:prev.discoveredAt||x.discoveredAt});}
+  for(const x of incoming){const prev=map.get(String(x.id));if(!prev){added++;map.set(String(x.id),x);}else map.set(String(x.id),{...x,...prev,lastSeenAt:x.discoveredAt});}
   const items=[...map.values()].sort((a,b)=>String(b.published||b.discoveredAt||'').localeCompare(String(a.published||a.discoveredAt||''))).slice(0,600);
   await store.setJSON('current',items);
   await store.setJSON('last-run',{at:new Date().toISOString(),via:page.via,found:incoming.length,added,total:items.length});
