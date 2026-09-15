@@ -7,6 +7,7 @@ const cases=[{id:'297562',title:'Court apartment',sourceUrl:'https://xn--55q36pb
 function setup(fetch){
  const nodes=new Map(),node=s=>{if(!nodes.has(s))nodes.set(s,{innerHTML:'',value:'',classList:{add(){},remove(){},toggle(){}},focus(){this.focused=true},scrollIntoView(){this.scrolled=true}});return nodes.get(s);};
  const context=vm.createContext({document:{querySelector:node,querySelectorAll:()=>[]},localStorage:{getItem:()=>null},location:{hash:'',pathname:'/',search:''},history:{replaceState(){}},window:{scrollTo(){}},fetch,AbortSignal,AbortController,setTimeout,console});
+ vm.runInContext(readFileSync(new URL('../data/research-rules.js',import.meta.url),'utf8'),context);
  vm.runInContext(code,context);context.fixtures=cases;vm.runInContext('discoveries=fixtures;analyzedCases=[]',context);
  return {context,node,run:id=>vm.runInContext(`runAnalysis(${JSON.stringify(id)})`,context)};
 }

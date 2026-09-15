@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>日本法拍屋投資篩選系統 V2.7｜FuHouseJoy</title>
-  <link rel="stylesheet" href="styles.css?v=274" />
+  <link rel="stylesheet" href="styles.css?v=275" />
 </head>
 <body>
   <header class="topbar">
@@ -13,9 +13,9 @@
       <span><b>日本法拍屋投資篩選系統</b><small>FuHouseJoy · V2.7 真實物件照片 · 多物件驗收</small></span>
     </button>
     <nav class="nav-tabs">
-      <button class="nav-tab active" data-nav="auto">自動篩選</button>
+      <button class="nav-tab active" data-nav="auto">首頁</button>
+      <button class="nav-tab" data-nav="discover">本日新增 <em id="discoverCount">0</em></button>
       <button class="nav-tab" data-nav="ended">結束物件</button>
-      <button class="nav-tab" data-nav="discover">新着尋寶 <em id="discoverCount">0</em></button>
       <button class="nav-tab" data-nav="shortlist">我的篩選 <em id="shortlistCount">0</em></button>
       <button class="nav-tab" data-nav="analyze">分析工作台</button>
     </nav>
@@ -26,25 +26,26 @@
       <div class="section-hero compact"><div><span class="eyebrow">BALANCED RESEARCH</span><h1>先找值得研究的物件</h1><p id="autoSummary"></p></div></div>
       <div class="source-note">初篩看資料完整度、交通與屋齡。研究優先分不是投資報酬或安全評等；點「加入篩選」才會收藏。</div>
       <details class="research-note"><summary>評分規則</summary><p>法院回指20、文件保存10、真實照片5、基本欄位完整15、步行15分鐘內25（16–25分鐘10）、屋齡10年內25（11–20年15）。至少60分、有法院回指且來源已確認投標結束日期才列值得研究；未知欄位不加分。價格不作便宜或獲利判斷。</p></details>
+      <div class="filter-strip"><select id="homeType" aria-label="首頁物件分類"><option value="">全部類型</option><option>公寓</option><option>戶建</option><option>土地</option></select></div>
       <div id="autoGrid" class="treasure-grid"></div><button id="autoMore" class="primary" hidden>顯示更多</button>
       <details class="research-note"><summary>一般觀察／待補資料及理由</summary><div id="observationList"></div></details>
     </section>
     <section id="endedView" class="view hidden">
       <div class="section-hero compact"><div><span class="eyebrow">AUCTION RESULTS</span><h1>結束物件</h1><p>投標期間結束後移入；結束不等於成交。尚未取得結果的案件每三天重查，保留來源及查詢紀錄。</p></div></div>
-      <div class="filter-strip"><select id="endedPref" aria-label="結束物件地區"><option value="">全部地區</option></select><select id="endedType" aria-label="結束物件類型"><option value="">全部類型</option><option>公寓</option><option>戶建</option><option>土地</option><option>事業用／混合</option><option>其他</option><option>待確認</option></select></div>
+      <div class="filter-strip"><select id="endedPref" aria-label="結束物件地區"><option value="">全部地區</option></select><select id="endedType" aria-label="結束物件類型"><option value="">全部類型</option><option>公寓</option><option>戶建</option><option>土地</option></select></div>
       <p id="endedSummary"></p><div id="endedGrid" class="shortlist-grid"></div>
     </section>
     <section id="discoverView" class="view hidden">
       <div class="discover-hero">
         <div>
           <span class="eyebrow">V2.7 · 真實物件照片</span>
-          <h1>今天有什麼可以挖寶？</h1>
-          <p>先大量看新物件，看到有趣的再收進自己的篩選清單。首頁先看真實案件照片、價格與地點，喜歡再收進篩選清單，最後才進分析工作台。</p>
+          <h1>本日新增</h1>
+          <p>只顯示本日公開且尚未結束的案件，依台灣日期比對來源公開日。查看全部研究推薦請回首頁。</p>
         </div>
         <div class="hero-stats">
-          <div><b id="heroNewCount">0</b><span>可閱覽物件</span></div>
-          <div><b id="heroCheapCount">0</b><span>真實主圖</span></div>
-          <div><b id="heroFreshCount">0</b><span>已結束案件</span></div>
+          <div><b id="heroNewCount">0</b><span>本日可閱覽</span></div>
+          <div><b id="heroCheapCount">0</b><span>本日真實主圖</span></div>
+          <div><b id="heroFreshCount">0</b><span>本日已結束</span></div>
         </div>
       </div>
 
@@ -53,6 +54,7 @@
         <div class="source-actions"><button id="refreshDiscoveries" class="soft small">立即更新</button><a href="https://xn--55q36pba3495a.com/" target="_blank" rel="noreferrer">開啟來源站 ↗</a></div>
       </div>
 
+      <p>分類：公寓、戶建、土地。戶建包含整棟建物，廠房、店舖等原始用途保留在卡片。</p>
       <div class="filter-strip">
         <input id="discoverSearch" placeholder="搜尋城市、車站、法院、物件名稱…" />
         <select id="discoverPref"><option value="">全部地區</option></select>
@@ -71,14 +73,14 @@
         </select>
       </div>
 
-      <div class="treasure-head"><select id="discoverStatus" aria-label="案件狀態"><option value="active">可閱覽案件</option><option value="photo">已有真實照片</option><option value="pending">待主圖</option></select><div><b>新着物件</b><span id="resultText"></span></div><span>點「加入篩選」才進入下一層</span></div>
+      <div class="treasure-head"><select id="discoverStatus" aria-label="案件狀態"><option value="active">可閱覽案件</option><option value="photo">已有真實照片</option><option value="pending">待主圖</option></select><div><b>本日新增物件</b><span id="resultText"></span></div><span>點「加入篩選」才進入下一層</span></div>
       <div id="discoverGrid" class="treasure-grid"></div>
     </section>
 
     <section id="shortlistView" class="view hidden">
       <div class="section-hero compact">
         <div><span class="eyebrow">MY SHORTLIST</span><h1>我的篩選清單</h1><p>只有你覺得值得研究的案件才進這裡。下一步再逐筆補租金、三點件、市價與出價上限。</p></div>
-        <button class="primary" data-nav="discover">＋ 繼續尋寶</button>
+        <button class="primary" data-nav="discover">＋ 查看本日新增</button>
       </div>
       <div class="shortlist-toolbar">
         <div class="pipeline"><span class="active">收藏／待研究</span><i>→</i><span>已分析</span><i>→</i><span>準備投標</span><i>→</i><span>已投標</span></div>
@@ -110,7 +112,7 @@
     </section>
   </main>
 
-  <script src="data/research-rules.js?v=274"></script>
-  <script src="app.js?v=274"></script>
+  <script src="data/research-rules.js?v=275"></script>
+  <script src="app.js?v=275"></script>
 </body>
 </html>

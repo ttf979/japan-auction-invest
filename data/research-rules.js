@@ -1,6 +1,9 @@
 (function(root){
  const finite=v=>v!==null&&v!==''&&v!==undefined&&Number.isFinite(Number(v));
- function category(x){const t=[x.type,x.propertyUse].filter(Boolean).join(' ');return /工場|事務所|店舗|倉庫|事業/.test(t)?'事業用／混合':/マンション|公寓/.test(t)?'公寓':/戸建|戶建|居宅/.test(t)?'戶建':/土地/.test(t)?'土地':t?'其他':'待確認';}
+ function category(x){const t=[x.type||x.propertyType,x.propertyUse].filter(Boolean).join(' ');return /マンション|公寓|区分所有/.test(t)?'公寓':/戸建|戶建|居宅|工場|事務所|店舗|倉庫|共同住宅|建物/.test(t)?'戶建':/土地|農地|田畑|畑/.test(t)?'土地':null;}
+ function today(now=new Date()){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).format(now);}
+ function isToday(x,now=new Date()){return x.published===today(now);}
+
  function closed(x,now=new Date()){return x.availability==='ended'||!!(x.bidEnd&&/^\d{4}-\d{2}-\d{2}$/.test(x.bidEnd)&&now.getTime()>Date.parse(x.bidEnd+'T23:59:59+09:00'));}
  function screen(x,now=new Date()){
   const reasons=[],pending=['占用、欠費、瑕疵與修繕費待三點件逐項核對','市價、租金及成交可行性尚未查核'];let score=0;
@@ -19,5 +22,5 @@
   if(!knownEnd)pending.unshift('投標結束日期待核對，不列入自動推薦');
   return {score,reasons,pending,eligible:!closed(x,now)&&official&&knownEnd&&score>=60,label:closed(x,now)?'已結束':!official||!knownEnd?'待補資料':score>=60?'值得研究':'一般觀察'};
  }
- root.ResearchRules={finite,category,closed,screen};
+ root.ResearchRules={finite,category,closed,screen,today,isToday};
 })(globalThis);

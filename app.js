@@ -14,8 +14,9 @@ async function init(){
     fetch('data/cases.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>[])
   ]);
   discoveries=Array.isArray(d)?d:[];analyzedCases=Array.isArray(c)?c:[];
+  const initialHash=location.hash;
   hydrateFilters();bindUI();renderDiscover();renderShortlist();updateCounts();renderResearch();showView('auto');
-  const linked=location.hash.match(/^#analyze\/(.+)$/);if(linked)runAnalysis(decodeURIComponent(linked[1]));
+  const linked=initialHash.match(/^#analyze\/(.+)$/);if(linked)runAnalysis(decodeURIComponent(linked[1]));
 }
 
 async function loadDiscoveries(){
@@ -39,6 +40,7 @@ async function refreshDiscoveries(){
 }
 
 function bindUI(){
+  $('#homeType').addEventListener('input',()=>{autoLimit=30;renderResearch();});
   ['#endedPref','#endedType'].forEach(s=>$(s).addEventListener('input',renderResearch));
   $$('[data-nav]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.nav)));
   ['#discoverSearch','#discoverPref','#discoverType','#discoverPrice','#discoverSort','#discoverStatus'].forEach(s=>$(s).addEventListener('input',renderDiscover));
@@ -55,6 +57,7 @@ function showView(name){
   $('#'+name+'View').classList.remove('hidden');
   $$('.nav-tab').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));
   if(name==='shortlist')renderShortlist();
+  if(name==='discover'){updateCounts();renderDiscover();}
   if(name==='auto'||name==='ended')renderResearch();
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -62,29 +65,29 @@ function hydrateFilters(reset=false){
   if(reset){$('#discoverPref').innerHTML='<option value="">全部地區</option>';$('#discoverType').innerHTML='<option value="">全部類型</option>';}
   const prefs=[...new Set(discoveries.map(x=>x.prefecture).filter(Boolean))].sort();
   $('#discoverPref').insertAdjacentHTML('beforeend',prefs.map(x=>`<option>${x}</option>`).join(''));
-  const types=[...new Set(discoveries.map(x=>x.type).filter(Boolean))].sort();
+  const types=['公寓','戶建','土地'];
   $('#discoverType').insertAdjacentHTML('beforeend',types.map(x=>`<option>${x}</option>`).join(''));
 }
 function updateCounts(){
-  $('#discoverCount').textContent=discoveries.filter(x=>x.availability!=='ended').length;
+  $('#discoverCount').textContent=discoveries.filter(x=>ResearchRules.isToday(x)&&!ResearchRules.closed(x)).length;
   $('#shortlistCount').textContent=selected.size;
-  $('#heroNewCount').textContent=discoveries.filter(x=>x.availability!=='ended').length;
-  $('#heroCheapCount').textContent=discoveries.filter(x=>x.imageReady).length;
-  $('#heroFreshCount').textContent=discoveries.filter(x=>x.availability==='ended').length;
+  $('#heroNewCount').textContent=discoveries.filter(x=>ResearchRules.isToday(x)&&!ResearchRules.closed(x)).length;
+  $('#heroCheapCount').textContent=discoveries.filter(x=>ResearchRules.isToday(x)&&!ResearchRules.closed(x)&&x.imageReady).length;
+  $('#heroFreshCount').textContent=discoveries.filter(x=>ResearchRules.isToday(x)&&ResearchRules.closed(x)).length;
 }
 function renderDiscover(){
   const term=($('#discoverSearch').value||'').trim().toLowerCase();
   const pref=$('#discoverPref').value,type=$('#discoverType').value,max=Number($('#discoverPrice').value||0),sort=$('#discoverSort').value;
-  let arr=discoveries.filter(x=>!ResearchRules.closed(x)).filter(x=>!term||[x.id,x.title,x.prefecture,x.city,x.address,x.court,x.station].join(' ').toLowerCase().includes(term));
+  let arr=discoveries.filter(x=>ResearchRules.isToday(x)&&!ResearchRules.closed(x)).filter(x=>!term||[x.id,x.title,x.prefecture,x.city,x.address,x.court,x.station].join(' ').toLowerCase().includes(term));
   const status=$('#discoverStatus').value;
   if(status==='active')arr=arr.filter(x=>x.availability!=='ended');
   if(status==='photo')arr=arr.filter(x=>x.imageReady);
   if(status==='pending')arr=arr.filter(x=>!x.imageReady&&x.availability!=='ended');
   if(status==='ended')arr=arr.filter(x=>x.availability==='ended');
-  if(pref)arr=arr.filter(x=>x.prefecture===pref);if(type)arr=arr.filter(x=>x.type===type);if(max)arr=arr.filter(x=>ResearchRules.finite(x.price)&&Number(x.price)<=max);
+  if(pref)arr=arr.filter(x=>x.prefecture===pref);if(type)arr=arr.filter(x=>ResearchRules.category(x)===type);if(max)arr=arr.filter(x=>ResearchRules.finite(x.price)&&Number(x.price)<=max);
   arr=[...arr].sort((a,b)=>sort==='cheap'?(Number(a.price)||9e15)-(Number(b.price)||9e15):sort==='area'?(Number(b.area)||0)-(Number(a.area)||0):sort==='age'?(Number(a.age)||999)-(Number(b.age)||999):String(b.published||'').localeCompare(String(a.published||'')));
   $('#resultText').textContent=` · ${arr.length} 件`;
-  $('#discoverGrid').innerHTML=arr.map(discoveryCard).join('')||empty('沒有符合條件的物件');
+  $('#discoverGrid').innerHTML=arr.map(discoveryCard).join('')||empty(`本日（${ResearchRules.today()}）沒有符合條件的新增物件。可至首頁查看其他日期的推薦。`);
   bindDiscoveryActions();
 }
 function propertyImageUrl(x){
@@ -108,8 +111,9 @@ function discoveryCard(x){
       <a class="photo-source" href="${x.sourceUrl}" target="_blank" rel="noreferrer" title="查看原始案件">原始案件 ↗</a>
     </div>
     <div class="treasure-body">
-      <div class="price-line"><b>${yen(x.price)}</b><span>${x.type||'類型待確認'}${x.area?' · '+x.area+'m²':''}</span></div>
+      <div class="price-line"><b>${yen(x.price)}</b><span>${ResearchRules.category(x)||'分類待核對'}${x.area?' · '+x.area+'m²':''}</span></div>
       <h3 title="${escapeHtml(x.title)}">${x.title}</h3>
+      <div class="address">原始用途：${escapeHtml(x.propertyUse||x.type||'待確認')}</div>
       <div class="address">${escapeHtml(x.address||[x.prefecture,x.city].filter(Boolean).join(''))}</div>
       <div class="data-status-row"><span class="status-pill bit ${String(x.bitStatus||'').includes('已定位')?'ok':'pending'}">${escapeHtml(x.bitStatus||'待BIT定位')}</span><span class="status-pill image ${String(x.imageStatus||'').includes('已建立')?'ok':'pending'}">${escapeHtml(x.imageStatus||'待主圖')}</span></div>
       <dl class="mini-specs">
@@ -145,7 +149,7 @@ function renderShortlist(){
 function shortlistCard(x){
   const detailed='grossYield' in x;
   return `<article class="short-card ${detailed?'detailed':''}">
-    <div class="short-top"><div><span class="case-id">#${x.id}</span><h3>${x.title}</h3><p>${x.prefecture} · ${x.city||''} · ${x.propertyType||x.type||''}</p></div>${detailed?`<div class="grade">${x.rating}</div>`:'<span class="pending-badge">待分析</span>'}</div>
+    <div class="short-top"><div><span class="case-id">#${x.id}</span><h3>${x.title}</h3><p>${x.prefecture} · ${x.city||''} · ${ResearchRules.category(x)||'分類待核對'}</p></div>${detailed?`<div class="grade">${x.rating}</div>`:'<span class="pending-badge">待分析</span>'}</div>
     <div class="short-metrics">
       <div><span>起標價</span><b>${yen(x.startPrice??x.price)}</b></div>
       <div><span>${detailed?'毛投報':'公開日'}</span><b>${detailed?x.grossYield.toFixed(1)+'%':x.published}</b></div>
@@ -222,7 +226,7 @@ function renderCaseWorkbench(d,record,{loading='',error=''}={}){
   $('#analysisResult').innerHTML=`<div class="workbench-result ${record?'ready':''}" data-analysis-case="${escapeHtml(item.id)}">
     <div class="result-status" role="status"><span>案件 #${escapeHtml(item.id)}</span><b>${escapeHtml(loading||error||(saved.length?'案件資料已載入':'基本資料已載入'))}</b></div>
     <div class="analysis-case-head">${ready?`<img src="${propertyImageUrl(item)}" alt="${escapeHtml(title)}" onerror="photoFallback(this,this.alt)">`:''}<div><h2>${escapeHtml(title)}</h2><p>${escapeHtml(item.address||[item.prefecture,item.city].filter(Boolean).join(''))}</p><p>${escapeHtml(item.court||'法院待確認')}｜${escapeHtml(item.caseNumber||'事件編號待確認')}</p></div></div>
-    <div class="decision-kpis"><div><span>起標價</span><b>${yen(item.price)}</b></div><div><span>類型</span><b>${escapeHtml(item.type||'待確認')}</b></div><div><span>面積</span><b>${item.area!=null?escapeHtml(item.area)+' m²':'待確認'}</b></div><div><span>屋齡</span><b>${item.age!=null?escapeHtml(item.age)+' 年':'待確認'}</b></div></div>
+    <div class="decision-kpis"><div><span>起標價</span><b>${yen(item.price)}</b></div><div><span>類型</span><b>${escapeHtml(ResearchRules.category(item)||'分類待核對')}</b></div><div><span>面積</span><b>${item.area!=null?escapeHtml(item.area)+' m²':'待確認'}</b></div><div><span>屋齡</span><b>${item.age!=null?escapeHtml(item.age)+' 年':'待確認'}</b></div></div>
     <p class="analysis-bid">入札：${escapeHtml(item.bid||'待確認')}</p>
     <div class="doc-downloads"><b>法院文件 ${saved.length?`· 已保存 ${saved.length} 份`:''}</b>${saved.map(x=>`<a href="${escapeHtml(x.downloadUrl)}" target="_blank" rel="noreferrer">開啟 ${escapeHtml(x.type||'三點件')} ↗</a>`).join('')}${!saved.length&&item.bitUrl?`<a href="${escapeHtml(item.bitUrl)}" target="_blank" rel="noreferrer">開啟法院三點件 ↗</a>`:''}</div>
     <div class="gate-box"><b>深度分析待完成</b><p>法院文件與照片已取得的狀態，不代表投資分析已完成。占用、租約、欠費、瑕疵，以及租金與市場比較仍待查核；目前不提供未經確認的投報率或出價建議。</p></div>
@@ -235,7 +239,7 @@ function renderFullWorkbench(c){
 }
 function renderPendingWorkbench(d){
   const chosen=selected.has(d.id);
-  $('#analysisResult').innerHTML=`<div class="workbench-result"><div class="result-status"><span>案件已辨識</span><b>基本資料完成 · 深度分析待執行</b></div><div class="full-head"><div><h2>${d.title}</h2><p>${d.prefecture}${d.city}${d.address}｜${d.court}</p></div><span class="pending-badge">待分析</span></div><div class="decision-kpis"><div><span>起標價</span><b>${yen(d.price)}</b></div><div><span>類型</span><b>${d.type||'待確認'}</b></div><div><span>面積</span><b>${d.area!=null?d.area+'m²':'待確認'}</b></div><div><span>屋齡</span><b>${d.age!=null?d.age+'年':'待確認'}</b></div><div><span>入札</span><b>${d.bid||'待確認'}</b></div></div><div class="analysis-steps"><div class="done">✓ 基本資料</div><div>○ 三點件／占用</div><div>○ 租金／市場行情</div><div>○ 投報／安全邊際／出價</div></div><div class="workbench-actions"><button id="pendingToggle" class="primary">${chosen?'✓ 已在我的篩選':'＋ 加入我的篩選'}</button><a href="${d.sourceUrl}" target="_blank" rel="noreferrer" class="soft-link">查看原始案件 ↗</a></div></div>`;
+  $('#analysisResult').innerHTML=`<div class="workbench-result"><div class="result-status"><span>案件已辨識</span><b>基本資料完成 · 深度分析待執行</b></div><div class="full-head"><div><h2>${d.title}</h2><p>${d.prefecture}${d.city}${d.address}｜${d.court}</p></div><span class="pending-badge">待分析</span></div><div class="decision-kpis"><div><span>起標價</span><b>${yen(d.price)}</b></div><div><span>類型</span><b>${ResearchRules.category(d)||'分類待核對'}</b></div><div><span>面積</span><b>${d.area!=null?d.area+'m²':'待確認'}</b></div><div><span>屋齡</span><b>${d.age!=null?d.age+'年':'待確認'}</b></div><div><span>入札</span><b>${d.bid||'待確認'}</b></div></div><div class="analysis-steps"><div class="done">✓ 基本資料</div><div>○ 三點件／占用</div><div>○ 租金／市場行情</div><div>○ 投報／安全邊際／出價</div></div><div class="workbench-actions"><button id="pendingToggle" class="primary">${chosen?'✓ 已在我的篩選':'＋ 加入我的篩選'}</button><a href="${d.sourceUrl}" target="_blank" rel="noreferrer" class="soft-link">查看原始案件 ↗</a></div></div>`;
   $('#pendingToggle').onclick=()=>{toggleShortlist(d.id);renderPendingWorkbench(d)};
 }
 function renderUnknownWorkbench(raw,id){
@@ -246,7 +250,8 @@ function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':
 
 function renderResearch(){
  const live=discoveries.filter(x=>!ResearchRules.closed(x)).map(x=>({...x,research:ResearchRules.screen(x)})).sort((a,b)=>b.research.score-a.research.score||a.id.localeCompare(b.id));
- const eligible=live.filter(x=>x.research.eligible);
+ const homeType=$('#homeType').value;
+ const eligible=live.filter(x=>x.research.eligible&&(!homeType||ResearchRules.category(x)===homeType));
  $('#autoSummary').textContent=`目前收錄 ${live.length} 件未結束物件，${eligible.length} 件符合均衡初篩；全日本、不限預算。已補入 9/15 公告完整 244 件（9 頁）。收錄範圍尚非全國在售全集。`;
  $('#autoGrid').innerHTML=eligible.slice(0,autoLimit).map(x=>`<div class="research-item"><div class="research-note"><b>值得研究 · 研究優先分 ${x.research.score}/100</b><ul>${x.research.reasons.map(t=>`<li>${escapeHtml(t)}</li>`).join('')}</ul><details><summary>待查事項</summary><ul>${x.research.pending.map(t=>`<li>${escapeHtml(t)}</li>`).join('')}</ul></details></div>${discoveryCard(x)}</div>`).join('')||empty('目前沒有符合初篩條件的物件');
  $('#observationList').innerHTML=live.filter(x=>!x.research.eligible).map(x=>`<p><b>#${escapeHtml(x.id)} ${escapeHtml(x.title)}</b> · ${x.research.label}（${x.research.score}/100）<br>${x.research.reasons.map(escapeHtml).join('；')}<br>待查：${x.research.pending.map(escapeHtml).join('；')}</p>`).join('');
@@ -255,11 +260,11 @@ function renderResearch(){
  const pref=$('#endedPref').value,type=$('#endedType').value;
  const prefs=[...new Set(ended.map(x=>x.prefecture).filter(Boolean))].sort();
  $('#endedPref').innerHTML='<option value="">全部地區</option>'+prefs.map(p=>`<option ${p===pref?'selected':''}>${escapeHtml(p)}</option>`).join('');
- const groups={};for(const x of ended){const k=(x.prefecture||'地區待確認')+' · '+ResearchRules.category(x);groups[k]=(groups[k]||0)+1;}
+ const groups={};for(const x of ended){const k=(x.prefecture||'地區待確認')+' · '+(ResearchRules.category(x)||'分類待核對');groups[k]=(groups[k]||0)+1;}
  $('#endedSummary').textContent=Object.entries(groups).map(([k,n])=>`${k} ${n} 件`).join(' ｜ ');
  $('#endedGrid').innerHTML=ended.filter(x=>(!pref||x.prefecture===pref)&&(!type||ResearchRules.category(x)===type)).map(x=>{
  const o=x.outcome||{},labels={sold:'已公布成交',unsold:'不売（未售出）',withdrawn:'取下／取消',unpublished:'未取得結果'};
- return `<article class="short-card"><span class="case-id">#${escapeHtml(x.id)} · ${ResearchRules.category(x)}</span><h3>${escapeHtml(x.title)}</h3><p>${escapeHtml(x.prefecture||'')} · ${escapeHtml(x.city||'')}</p><h2>${o.status==='sold'&&ResearchRules.finite(o.salePrice)?yen(o.salePrice):labels[o.status]||'待追蹤'}</h2><p>${o.sourceLevel==='secondary'?'來源站結果 · 待法院核對':'尚無可核對結果'}</p><p>起標價 ${yen(x.price)} · 開標日 ${escapeHtml(x.openingDate||'待確認')}</p><p>最近查詢 ${escapeHtml(displayTime(o.lastAttemptAt||o.checkedAt))}<br>下次追蹤 ${escapeHtml(o.nextCheckAt?displayTime(o.nextCheckAt):'排入每日檢查')}</p>${o.lastAttemptStatus==='fetch_failed'?'<p class="error">最近抓取失敗，保留先前資料並排程重試</p>':''}<a href="${escapeHtml(x.sourceUrl)}" target="_blank" rel="noreferrer">結果來源 ↗</a><p>原文：${escapeHtml(o.rawLabel||'')} ${escapeHtml(o.rawStatus||'')}</p><button class="soft" data-analyze-card="${escapeHtml(x.id)}">查看案件</button></article>`;
+ return `<article class="short-card"><span class="case-id">#${escapeHtml(x.id)} · ${ResearchRules.category(x)||'分類待核對'}</span><h3>${escapeHtml(x.title)}</h3><p>${escapeHtml(x.prefecture||'')} · ${escapeHtml(x.city||'')}</p><h2>${o.status==='sold'&&ResearchRules.finite(o.salePrice)?yen(o.salePrice):labels[o.status]||'待追蹤'}</h2><p>${o.sourceLevel==='secondary'?'來源站結果 · 待法院核對':'尚無可核對結果'}</p><p>起標價 ${yen(x.price)} · 開標日 ${escapeHtml(x.openingDate||'待確認')}</p><p>最近查詢 ${escapeHtml(displayTime(o.lastAttemptAt||o.checkedAt))}<br>下次追蹤 ${escapeHtml(o.nextCheckAt?displayTime(o.nextCheckAt):'排入每日檢查')}</p>${o.lastAttemptStatus==='fetch_failed'?'<p class="error">最近抓取失敗，保留先前資料並排程重試</p>':''}<a href="${escapeHtml(x.sourceUrl)}" target="_blank" rel="noreferrer">結果來源 ↗</a><p>原文：${escapeHtml(o.rawLabel||'')} ${escapeHtml(o.rawStatus||'')}</p><button class="soft" data-analyze-card="${escapeHtml(x.id)}">查看案件</button></article>`;
  }).join('')||empty('此分類沒有結束物件');
  bindDiscoveryActions();
 }
