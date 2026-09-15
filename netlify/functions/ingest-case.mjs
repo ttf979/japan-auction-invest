@@ -1,7 +1,7 @@
 import { bitUrl, blockedPage, PHOTO_POLICY, trustedPhoto } from '../lib/photo-policy.mjs';
 import seeds from '../../data/bit-sources.json' with { type: 'json' };
 import { createHash } from 'node:crypto';
-import { extractLargestPhotoFromPdf } from '../lib/pdf-photo.mjs';
+import preparedCovers from '../../data/prepared-covers.json' with {type:'json'};
 import { discoveryStore } from '../lib/discovery.mjs';
 import { ingestStore, documentStore, mediaStore, safeCaseId, safeFilePart } from '../lib/archive.mjs';
 
@@ -77,11 +77,11 @@ export default async(req)=>{
   while(queue.length&&saved.length<8){
     const item=queue.shift();if(!item?.url||seen.has(item.url))continue;seen.add(item.url);
     try{
-      const res=await fetchResource(item,source);const docId=`${String(saved.length+1).padStart(2,'0')}-${safeFilePart(item.type||'document')}`;let ext=res.kind==='pdf'?'pdf':res.kind==='html'?'html':'bin';const key=`${id}/${docId}.${ext}`;
+      const res=await fetchResource(item,source);const docId=`${String(saved.length+1).padStart(2,'0')}-${'document'}`;let ext=res.kind==='pdf'?'pdf':res.kind==='html'?'html':'bin';const key=`${id}/${docId}.${ext}`;
       await docsStore.set(key,res.bytes,{metadata:{contentType:res.contentType,originalUrl:item.url,type:item.type||'document',fetchedAt:new Date().toISOString()}});
       const entry={documentId:docId,type:item.type||'document',originalUrl:item.url,storageKey:key,contentType:res.contentType,size:res.bytes.byteLength,saved:true,downloadUrl:`/api/case-document?id=${encodeURIComponent(id)}&doc=${encodeURIComponent(docId)}`};saved.push(entry);
       if(res.kind==='pdf'){
-        try{const p=await extractLargestPhotoFromPdf(res.bytes,{maxPages:64,verifiedCrop:createHash('sha256').update(new Uint8Array(res.bytes)).digest('hex')===seeds[id]?.pdfSha256?seeds[id].photoCrop:null});if(p&&(!bestPhoto||item.type==='現況調査報告書'||item.type==='三點件一括'))bestPhoto={...p,from:item.type||'document',source:item.url};}catch(e){entry.photoError=e.message;}
+        try{const candidate=preparedCovers[id];const verified=candidate&&candidate.pdfSha256===createHash('sha256').update(new Uint8Array(res.bytes)).digest('hex')&&bitUrl(candidate.source)===bitUrl(item.url);const p=verified?{...candidate,body:Buffer.from(candidate.body,'base64')}:null;if(!p)entry.photoError='photo_not_prepared_for_current_pdf';if(p&&(!bestPhoto||item.type==='現況調査報告書'||item.type==='三點件一括'))bestPhoto={...p,from:item.type||'document',source:item.url};}catch(e){entry.photoError=e.message;}
       }else if(res.kind==='html'){
         if(/bit\.courts\.go\.jp/i.test(item.url)){
           const nested=documentCandidates(res.html,item.url).filter(x=>!seen.has(x.url));for(const n of nested.slice(0,5))queue.push(n);
