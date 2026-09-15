@@ -1,7 +1,6 @@
-import { getDocument, OPS, ImageKind } from 'pdfjs-dist/legacy/build/pdf.mjs';
-import { createCanvas, ImageData, loadImage } from '@napi-rs/canvas';
 import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
+let createCanvas, ImageData, loadImage, ImageKind;
 
 function objectPromise(objs,id){
   return new Promise(resolve=>{ try{ const direct=objs.get(id,v=>resolve(v)); if(direct) resolve(direct); }catch{ resolve(null); } });
@@ -26,6 +25,9 @@ async function imageObjectToJpeg(img){
 }
 
 export async function extractLargestPhotoFromPdf(pdfBuffer,{maxPages=40,verifiedCrop=null}={}){
+  ({createCanvas,ImageData,loadImage}=await import('@napi-rs/canvas'));
+  const pdfjs=await import('pdfjs-dist/legacy/build/pdf.mjs');
+  const {getDocument,OPS}=pdfjs; ImageKind=pdfjs.ImageKind;
   const root=dirname(createRequire(import.meta.url).resolve('pdfjs-dist/package.json'));
   const loading=getDocument({data:new Uint8Array(pdfBuffer),useSystemFonts:true,disableFontFace:true,
     wasmUrl:join(root,'wasm')+'/',standardFontDataUrl:join(root,'standard_fonts')+'/',useWorkerFetch:false,verbosity:0});
