@@ -1,6 +1,7 @@
 import base from '../../data/discoveries.json' with {type:'json'};
 import extra from '../../data/discoveries-extra.json' with {type:'json'};
-const initial=[...base,...extra];
+import prices from '../../data/auction-prices.json' with {type:'json'};
+const initial=[...base,...extra].map(x=>({...x,...prices[x.id]}));
 export function mergeCatalog(current=[]){
   const byId=new Map();
   for(const item of [...initial,...current]){
