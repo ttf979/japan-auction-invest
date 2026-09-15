@@ -1,0 +1,179 @@
+{
+  "municipalities": {
+    "群馬縣|伊勢崎市": {
+      "brands": {
+        "status": "verified",
+        "starbucks": true,
+        "mcdonalds": true,
+        "municipality": "伊勢崎市",
+        "sources": [
+          {
+            "url": "https://store.starbucks.co.jp/detail-4117/",
+            "label": "カインズ伊勢崎店",
+            "checkedAt": "2026-09-16T00:00:00+08:00"
+          },
+          {
+            "url": "https://map.mcdonalds.co.jp/map/10006",
+            "label": "伊勢崎店",
+            "checkedAt": "2026-09-16T00:00:00+08:00"
+          }
+        ],
+        "stores": [
+          {
+            "brand": "starbucks",
+            "name": "カインズ伊勢崎店",
+            "address": "群馬県伊勢崎市宮子町3161-1",
+            "url": "https://store.starbucks.co.jp/detail-4117/",
+            "note": "官方門市頁記載僅得來速，無店內座位；僅證明市內品牌存在。"
+          },
+          {
+            "brand": "mcdonalds",
+            "name": "伊勢崎店",
+            "address": "群馬県伊勢崎市連取町2335-1",
+            "url": "https://map.mcdonalds.co.jp/map/10006"
+          }
+        ],
+        "note": "市區町村內有兩品牌；門市距離待查。"
+      },
+      "population": {
+        "status": "verified",
+        "municipality": "伊勢崎市",
+        "current": 211011,
+        "currentDate": "2026-03-31",
+        "previous": null,
+        "previousDate": null,
+        "periodYears": 5,
+        "comparable": false,
+        "basis": "住民基本台帳・含外國人",
+        "sources": [
+          {
+            "url": "https://www.city.isesaki.lg.jp/material/files/group/16/nenreibetu-zinkou-all_R08_03_31.pdf",
+            "label": "伊勢崎市 2026-03-31 年齡別人口調查表（含外國人）",
+            "checkedAt": "2026-09-16T00:00:00+08:00"
+          },
+          {
+            "url": "https://www.city.isesaki.lg.jp/material/files/group/110/kenkouisesaki21_dai3ji.pdf",
+            "label": "健康いせさき21 第3次・PDF 第12頁人口推移（2021-03-31）",
+            "checkedAt": "2026-09-16T00:00:00+08:00"
+          }
+        ],
+        "note": "人口已核對；五年基期圖表仍待視覺覆核，暫不計趨勢分。"
+      }
+    },
+    "東京都|練馬区": {
+      "brands": {
+        "status": "verified",
+        "starbucks": true,
+        "mcdonalds": true,
+        "municipality": "練馬区",
+        "sources": [
+          {
+            "url": "https://store.starbucks.co.jp/detail-1688/",
+            "label": "エミオ練馬店",
+            "checkedAt": "2026-09-16T00:00:00+08:00"
+          },
+          {
+            "url": "https://map.mcdonalds.co.jp/map/13939",
+            "label": "練馬田柄店",
+            "checkedAt": "2026-09-16T00:00:00+08:00"
+          }
+        ],
+        "stores": [
+          {
+            "brand": "starbucks",
+            "name": "エミオ練馬店",
+            "address": "東京都練馬区練馬1-3-5 エミオ練馬",
+            "url": "https://store.starbucks.co.jp/detail-1688/"
+          },
+          {
+            "brand": "mcdonalds",
+            "name": "練馬田柄店",
+            "address": "東京都練馬区田柄3-10-11",
+            "url": "https://map.mcdonalds.co.jp/map/13939"
+          }
+        ],
+        "note": "市區町村內有兩品牌；門市距離待查。"
+      },
+      "population": {
+        "status": "verified",
+        "municipality": "練馬区",
+        "current": 752884,
+        "currentDate": "2026-08-01",
+        "previous": 740435,
+        "previousDate": "2021-08-01",
+        "periodYears": 5,
+        "comparable": true,
+        "basis": "住民基本台帳・含外國人",
+        "sources": [
+          {
+            "url": "https://www.city.nerima.tokyo.jp/kusei/tokei/jinko/sokatu/r08/0808kakonosoukatu.html",
+            "label": "練馬區 2026-08-01 世帶與人口總括表",
+            "checkedAt": "2026-09-16T00:00:00+08:00"
+          },
+          {
+            "url": "https://www.city.nerima.tokyo.jp/kusei/tokei/jinko/sokatu/r03/0308kakonosoukatu.html",
+            "label": "練馬區 2021-08-01 世帶與人口總括表",
+            "checkedAt": "2026-09-16T00:00:00+08:00"
+          }
+        ],
+        "note": "相同市區範圍、總人口包含日本人與外國人，兩期相隔整五年。"
+      }
+    },
+    "北海道|北見市": {
+      "brands": {
+        "status": "verified",
+        "starbucks": true,
+        "mcdonalds": true,
+        "municipality": "北見市",
+        "sources": [
+          {
+            "url": "https://store.starbucks.co.jp/detail-1845/",
+            "label": "北見三輪店",
+            "checkedAt": "2026-09-16T00:00:00+08:00"
+          },
+          {
+            "url": "https://map.mcdonalds.co.jp/map/01645",
+            "label": "北見大町店",
+            "checkedAt": "2026-09-16T00:00:00+08:00"
+          }
+        ],
+        "stores": [
+          {
+            "brand": "starbucks",
+            "name": "北見三輪店",
+            "address": "北海道北見市東三輪2-36-4",
+            "url": "https://store.starbucks.co.jp/detail-1845/"
+          },
+          {
+            "brand": "mcdonalds",
+            "name": "北見大町店",
+            "address": "北海道北見市大町86",
+            "url": "https://map.mcdonalds.co.jp/map/01645"
+          }
+        ],
+        "note": "市區町村內有兩品牌；門市距離待查。"
+      },
+      "population": {
+        "status": "verified",
+        "municipality": "北見市",
+        "current": 106661,
+        "currentDate": "2026-07-31",
+        "previous": null,
+        "previousDate": null,
+        "periodYears": 5,
+        "comparable": false,
+        "basis": "住民基本台帳",
+        "sources": [
+          {
+            "url": "https://www.city.kitami.lg.jp/administration/detail.php?content=8460&ruby=false",
+            "label": "北見市最新人口統計・2026-07-31",
+            "checkedAt": "2026-09-16T00:00:00+08:00"
+          }
+        ],
+        "note": "已核對住民基本台帳人口 106,661；不可誤用同頁戶籍人口 116,930。可比五年基期尚待查。"
+      }
+    }
+  },
+  "version": 1,
+  "cases": {}
+}

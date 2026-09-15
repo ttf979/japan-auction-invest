@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>日本法拍屋投資篩選系統 V2.7｜FuHouseJoy</title>
-  <link rel="stylesheet" href="styles.css?v=276" />
+  <title>日本法拍屋投資篩選系統 V2.8｜FuHouseJoy</title>
+  <link rel="stylesheet" href="styles.css?v=280" />
 </head>
 <body>
   <header class="topbar">
     <button class="brand-wrap" data-nav="auto">
       <span class="brand-mark">FJ</span>
-      <span><b>日本法拍屋投資篩選系統</b><small>FuHouseJoy · V2.7 真實物件照片 · 多物件驗收</small></span>
+      <span><b>日本法拍屋投資篩選系統</b><small>FuHouseJoy · 看圖選物件 · 區域指標</small></span>
     </button>
     <nav class="nav-tabs">
       <button class="nav-tab active" data-nav="auto">首頁</button>
@@ -24,12 +24,12 @@
   <main class="shell">
     <section id="autoView" class="view">
       <div class="section-hero compact"><div><span class="eyebrow">BALANCED RESEARCH</span><h1>先找值得研究的物件</h1><p id="autoSummary"></p></div></div>
-      <div class="source-note">初篩看資料完整度、交通與屋齡。研究優先分不是投資報酬或安全評等；點「加入篩選」才會收藏。</div>
-      <details class="research-note"><summary>評分規則</summary><p>法院回指20、文件保存10、真實照片5、基本欄位完整15、步行15分鐘內25（16–25分鐘10）、屋齡10年內25（11–20年15）。至少60分、有法院回指且來源已確認投標結束日期才列值得研究；未知欄位不加分。價格不作便宜或獲利判斷。</p></details>
+      <p class="home-caption">看圖挑選，點進物件查看完整評分與資料。</p>
       <div class="filter-strip"><select id="homeType" aria-label="首頁物件分類"><option value="">全部類型</option><option>公寓</option><option>戶建</option><option>土地</option></select></div>
       <div id="autoGrid" class="treasure-grid"></div><button id="autoMore" class="primary" hidden>顯示更多</button>
-      <details class="research-note"><summary>一般觀察／待補資料及理由</summary><div id="observationList"></div></details>
+      <details class="research-note"><summary>更多物件</summary><div id="observationList"></div></details>
     </section>
+    <section id="propertyView" class="view hidden"><div id="propertyDetail" tabindex="-1"></div></section>
     <section id="endedView" class="view hidden">
       <div class="section-hero compact"><div><span class="eyebrow">AUCTION RESULTS</span><h1>結束物件</h1><p>投標期間結束後移入；結束不等於成交。尚未取得結果的案件每三天重查，保留來源及查詢紀錄。</p></div></div>
       <div class="filter-strip"><select id="endedPref" aria-label="結束物件地區"><option value="">全部地區</option></select><select id="endedType" aria-label="結束物件類型"><option value="">全部類型</option><option>公寓</option><option>戶建</option><option>土地</option></select></div>
@@ -112,7 +112,8 @@
     </section>
   </main>
 
-  <script src="data/research-rules.js?v=276"></script>
-  <script src="app.js?v=276"></script>
+  <script src="data/research-rules.js?v=280"></script>
+  <script src="data/location-indicators.js?v=280"></script>
+  <script src="app.js?v=280"></script>
 </body>
 </html>
