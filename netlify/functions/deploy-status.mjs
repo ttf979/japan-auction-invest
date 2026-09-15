@@ -1,3 +1,3 @@
-export default async (req, context) => Response.json({ok:true,version:'2.7.0',photoPolicy:'bit-real-photo-v27',
-  deployId:context.deploy.id,deployContext:context.deploy.context}, {headers:{'cache-control':'no-store'}});
+import build from '../../data/build-info.json' with {type:'json'};
+export default async () => Response.json({ok:true,...build,photoPolicy:'bit-real-photo-v27'}, {headers:{'cache-control':'no-store'}});
 export const config={path:'/api/deploy-status'};

@@ -1,5 +1,6 @@
 import { cpSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import {createHash} from 'node:crypto';
+writeFileSync('data/build-info.json',JSON.stringify({version:'2.7.0',deployId:process.env.DEPLOY_ID||null,commit:process.env.COMMIT_REF||null,deployContext:process.env.CONTEXT||'development'}));
 if(process.env.NETLIFY==='true'||process.env.PREPARE_COVERS==='1'){
   const {extractLargestPhotoFromPdf}=await import('../netlify/lib/pdf-photo.mjs');
   const seeds=JSON.parse(readFileSync('data/bit-sources.json','utf8')), prepared={};
