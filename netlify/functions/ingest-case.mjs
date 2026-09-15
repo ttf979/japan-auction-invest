@@ -1,5 +1,6 @@
 import { bitUrl, blockedPage, PHOTO_POLICY, trustedPhoto } from '../lib/photo-policy.mjs';
 import seeds from '../../data/bit-sources.json' with { type: 'json' };
+import initialDiscoveries from '../../data/discoveries.json' with { type: 'json' };
 import { createHash } from 'node:crypto';
 import preparedCovers from '../../data/prepared-covers.json' with {type:'json'};
 import { discoveryStore } from '../lib/discovery.mjs';
@@ -54,7 +55,7 @@ async function fetchResource(item,referer){
   return {kind:'binary',contentType:ct,bytes:buf,finalUrl:r.url||item.url};
 }
 async function updateDiscovery(id,patch){
-  try{const store=discoveryStore();const items=await store.get('current',{type:'json'}).catch(()=>null)||[];let changed=false;const next=items.map(x=>{if(String(x.id)!==String(id))return x;changed=true;return {...x,...patch};});if(changed)await store.setJSON('current',next);}catch{}
+  try{const store=discoveryStore();const current=await store.get('current',{type:'json'}).catch(()=>null);const items=Array.isArray(current)&&current.length?current:initialDiscoveries;let changed=false;const next=items.map(x=>{if(String(x.id)!==String(id))return x;changed=true;return {...x,...patch};});if(changed)await store.setJSON('current',next);}catch{}
 }
 
 export default async(req)=>{

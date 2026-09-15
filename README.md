@@ -12,7 +12,7 @@ The agent can submit future updates through the authenticated Actions page; user
 
 ## Build and verification
 
-Install dependencies with pnpm. Run node --test tests/photo-policy.test.mjs and node scripts/build.mjs. Netlify publishes public/ and bundles netlify/functions/. PDF.js decoding assets and native canvas are included in the function package.
+Install dependencies with pnpm. Run node --test tests/photo-policy.test.mjs and node scripts/build.mjs. Netlify publishes public/ and bundles netlify/functions/. PDF.js decoding assets and native canvas run only during the Netlify build.
 
 POST /api/ingest-case with {"caseId":"297562","url":"https://xn--55q36pba3495a.com/auction/297562.html"}; then GET /api/property-image?id=297562&debug=1. Successful metadata must identify a BIT PDF, method three-doc-pdf, policy bit-real-photo-v27, and the actual PDF page. GET without debug returns the image. Court documents and images persist in Netlify Blobs; Google Drive is optional.
 
