@@ -4,7 +4,7 @@
 
 [functions]
   directory = "netlify/functions"
-  node_bundler = "esbuild"
+  node_bundler = "zisi"
   included_files = ["node_modules/pdfjs-dist/package.json", "node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs", "node_modules/pdfjs-dist/wasm/**", "node_modules/pdfjs-dist/standard_fonts/**"]
 
 [[redirects]]
