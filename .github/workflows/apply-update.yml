@@ -1,0 +1,81 @@
+name: Apply verified update
+on:
+  workflow_dispatch:
+    inputs:
+      expected_head:
+        description: Current main commit SHA (reject concurrent edits)
+        required: true
+      bundle:
+        description: Base64 gzip JSON object mapping repository paths to UTF-8 file content
+        required: true
+      message:
+        description: Commit message
+        required: true
+        default: Update application
+permissions:
+  contents: read
+concurrency:
+  group: apply-verified-update
+  cancel-in-progress: false
+jobs:
+  apply:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate base and apply bounded text update
+        env:
+          EXPECTED_HEAD: ${{ inputs.expected_head }}
+          UPDATE_BUNDLE: ${{ inputs.bundle }}
+        run: |
+          python3 - <<'PY'
+          import os, re, json, base64, zlib, pathlib, subprocess
+          head = subprocess.check_output(['git','rev-parse','HEAD'], text=True).strip()
+          assert re.fullmatch(r'[0-9a-f]{40}', os.environ['EXPECTED_HEAD'])
+          assert head == os.environ['EXPECTED_HEAD'], 'main changed; rebuild update against current HEAD'
+          raw = base64.b64decode(os.environ['UPDATE_BUNDLE'], validate=True)
+          decoder = zlib.decompressobj(16 + zlib.MAX_WBITS)
+          unpacked = decoder.decompress(raw, 2000001)
+          assert len(unpacked) <= 2000000 and decoder.eof, 'bundle exceeds limit'
+          files = json.loads(unpacked)
+          assert isinstance(files, dict) and 0 < len(files) <= 80
+          root = pathlib.Path.cwd().resolve()
+          names = {'app.js','index.html','styles.css','package.json','package-lock.json','pnpm-lock.yaml','netlify.toml','README.md','DEPLOY_MANIFEST.json','.gitignore'}
+          for name, content in files.items():
+              assert isinstance(name,str) and isinstance(content,str)
+              path = pathlib.PurePosixPath(name)
+              assert not path.is_absolute() and '..' not in path.parts and chr(92) not in name
+              assert name in names or (path.parts[0] in {'netlify','data','scripts','tests'} and all(not p.startswith('.') for p in path.parts) and path.suffix in {'.mjs','.js','.json','.css','.html','.md','.ts'})
+              dest = root / path
+              assert dest.resolve().is_relative_to(root) and not dest.is_symlink()
+              dest.parent.mkdir(parents=True,exist_ok=True)
+              dest.write_text(content,encoding='utf-8')
+          print('Applied',len(files),'text files')
+          PY
+      - name: Validate JavaScript and photo policy
+        run: |
+          node --check app.js
+          find netlify scripts tests -name '*.mjs' -print0 | xargs -0 -r -n1 node --check
+          if [ -f tests/photo-policy.test.mjs ]; then node --test tests/photo-policy.test.mjs; fi
+          node scripts/build.mjs
+          git diff --check
+      - name: Commit and push to main
+        env:
+          UPDATE_MESSAGE: ${{ inputs.message }}
+        run: |
+          git add -- app.js index.html styles.css package.json netlify.toml README.md DEPLOY_MANIFEST.json .gitignore netlify data scripts tests
+          if [ -f pnpm-lock.yaml ]; then git add pnpm-lock.yaml; fi
+          if [ -f package-lock.json ]; then git add package-lock.json; fi
+          if git diff --cached --quiet; then echo 'No changes'; exit 0; fi
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m "$UPDATE_MESSAGE"
+          git push origin HEAD:main
+          echo "Updated main: $(git rev-parse HEAD)" >> "$GITHUB_STEP_SUMMARY"
