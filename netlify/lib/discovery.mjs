@@ -58,7 +58,8 @@ export async function runDiscovery(){
   if(!day)throw new Error('找不到公告日期，未更新收錄紀錄');
   const store=discoveryStore();
   const checkpoint=await store.get('batch-checkpoint',{type:'json'}).catch(()=>null);
-  if(checkpoint?.day===day&&checkpoint.complete){const items=await store.get('current',{type:'json'})||[];return {items,added:0,found:checkpoint.count,total:items.length,newIds:[],via:'無新批次'};}
+  // Re-scan a completed day when this function is invoked again. The source can
+  // append listings later on the same day; ID-based merging keeps this idempotent.
   const all=new Map(),seen=new Set();let next=`${HOME}auction/find?day=${day}`;
   while(next){
     if(seen.has(next)||seen.size>=100)throw new Error('分頁循環或超過安全界限，未標記完成');
