@@ -4,7 +4,7 @@ import {parseOutcome,nextOutcome} from '../netlify/lib/outcome-parser.mjs';
 import {mergeCatalog} from '../netlify/lib/catalog.mjs';
 const now=new Date('2026-09-15T15:00:00Z'),R=globalThis.ResearchRules;
 test('research never recommends unknown deadlines or missing official references',()=>{
- const x={bitUrl:'https://www.bit.courts.go.jp/app/detail',caseNumber:'令和08年(ケ)第1号',age:3,station:'徒歩10分',sourceVerifiedAt:now.toISOString()};
+ const x={officialVerified:true,bitUrl:'https://www.bit.courts.go.jp/app/detail',caseNumber:'令和08年(ケ)第1号',age:3,station:'徒歩10分',sourceVerifiedAt:now.toISOString()};
  assert.equal(R.screen(x,now).eligible,false);assert.equal(R.screen({...x,bidEnd:'2026-02-30'},now).eligible,false);
  assert.equal(R.screen({...x,bidEnd:'2026-10-01'},now).eligible,true);assert.equal(R.screen({...x,bidEnd:'2026-10-01',bitUrl:null},now).eligible,false);
  assert.equal(R.finite(null),false);assert.equal(R.finite(0),true);

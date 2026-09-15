@@ -6,8 +6,8 @@ test('catalog removes search-page placeholders and merges duplicate source ident
  const rows=mergeCatalog([{id:'alias',sourceUrl:'https://xn--55q36pba3495a.com/auction/297580.html'}, {id:'placeholder',sourceUrl:'https://xn--55q36pba3495a.com/auction/find'}]);
  assert.equal(rows.filter(x=>x.id==='297580').length,1);
  assert.equal(rows.some(x=>x.id==='placeholder'||x.id==='alias'),false);
- assert.equal(rows.filter(x=>x.availability==='active').length,14);
- assert.equal(rows.filter(x=>x.availability==='ended').length,7);
+ assert.equal(rows.filter(x=>x.availability==='active').length,255);
+ assert.equal(rows.filter(x=>x.availability==='ended').length,10);
 });
 test('verified closed status wins over stale active store metadata',()=>{
  const item=mergeCatalog([{id:'297583',sourceUrl:'https://xn--55q36pba3495a.com/auction/297583.html',availability:'active'}]).find(x=>x.id==='297583');

@@ -1,5 +1,6 @@
 import { bitUrl, blockedPage, PHOTO_POLICY, trustedPhoto } from '../lib/photo-policy.mjs';
 import seeds from '../../data/bit-sources.json' with { type: 'json' };
+import {mergeCatalog} from '../lib/catalog.mjs';
 import initialDiscoveries from '../../data/discoveries.json' with { type: 'json' };
 import { createHash } from 'node:crypto';
 import preparedCovers from '../../data/prepared-covers.json' with {type:'json'};
@@ -66,7 +67,8 @@ export default async(req)=>{
   const id=guessed||`case-${Date.now()}`;if(!safeCaseId(id))return Response.json({ok:false,error:'bad_case_id'},{status:400});
 
   const prior=await ingestStore().get(`cases/${id}`,{type:'json'}).catch(()=>null);
-  const known=bitUrl(prior?.bitUrl)||bitUrl(seeds[id]?.bitUrl)||bitUrl(source);
+  const catalog=mergeCatalog().find(x=>x.id===id&&x.sourceUrl===source&&x.officialVerified);
+  const known=bitUrl(prior?.bitUrl)||bitUrl(seeds[id]?.bitUrl)||bitUrl(catalog?.bitUrl)||bitUrl(source);
   let page={html:'',via:'saved-bit-reference'};
   if(!known){try{page=await fetchHtml(source);}catch(e){return Response.json({ok:false,error:e.message,caseId:id},{status:502});}}
   const discovered=(known?[{url:known,type:'三點件一括',score:999}]:documentCandidates(page.html,source).map(x=>({...x,url:bitUrl(x.url)})).filter(x=>x.url)).slice(0,10);

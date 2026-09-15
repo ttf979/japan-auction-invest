@@ -4,7 +4,7 @@
  function closed(x,now=new Date()){return x.availability==='ended'||!!(x.bidEnd&&/^\d{4}-\d{2}-\d{2}$/.test(x.bidEnd)&&now.getTime()>Date.parse(x.bidEnd+'T23:59:59+09:00'));}
  function screen(x,now=new Date()){
   const reasons=[],pending=['占用、欠費、瑕疵與修繕費待三點件逐項核對','市價、租金及成交可行性尚未查核'];let score=0;
-  const official=!!(x.bitUrl&&/^https:\/\/(www\.)?bit\.courts\.go\.jp\//.test(x.bitUrl)&&x.caseNumber);
+  const official=!!(x.officialVerified&&x.bitUrl&&/^https:\/\/(www\.)?bit\.courts\.go\.jp\//.test(x.bitUrl)&&x.caseNumber);
   if(official){score+=20;reasons.push('已連結法院三點件及事件編號');}else pending.unshift('尚缺法院文件回指，僅列待補資料');
   if(x.documentCount>0){score+=10;reasons.push('三點件已保存，可開始文件研究');}else pending.push('法院文件尚未保存或已下架');
   if(x.imageReady){score+=5;reasons.push('已有法院文件真實照片');}

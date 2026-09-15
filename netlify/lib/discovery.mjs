@@ -1,4 +1,5 @@
 import { getStore, getDeployStore } from '@netlify/blobs';
+import {pageLinks,assertSourcePage} from './source-catalog.mjs';
 
 const UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/152.0 Safari/537.36';
 const HOME='https://xn--55q36pba3495a.com/';
@@ -52,14 +53,26 @@ function auctionLinks(html){
 
 export async function runDiscovery(){
   const page=await fetchText(HOME);
-  const incoming=auctionLinks(page.text).slice(0,120);
+  assertSourcePage(page.text);
+  const day=(page.text.match(/[?&]day=(\d{8})/)||[])[1];
+  if(!day)throw new Error('找不到公告日期，未更新收錄紀錄');
   const store=discoveryStore();
+  const checkpoint=await store.get('batch-checkpoint',{type:'json'}).catch(()=>null);
+  if(checkpoint?.day===day&&checkpoint.complete){const items=await store.get('current',{type:'json'})||[];return {items,added:0,found:checkpoint.count,total:items.length,newIds:[],via:'無新批次'};}
+  const all=new Map(),seen=new Set();let next=`${HOME}auction/find?day=${day}`;
+  while(next){
+    if(seen.has(next)||seen.size>=100)throw new Error('分頁循環或超過安全界限，未標記完成');
+    const u=new URL(next);if(u.origin!==new URL(HOME).origin||u.searchParams.get('day')!==day)throw new Error('分頁範圍不一致');
+    seen.add(next);const p=pageLinks((await fetchText(next)).text,next);for(const x of p.items)all.set(x.id,x);next=p.next;
+  }
+  const incoming=[...all.values()];if(!incoming.length)throw new Error('來源未回傳案件，未清空舊資料');
   const current=await store.get('current',{type:'json'}).catch(()=>null)||[];
   const map=new Map(current.map(x=>[String(x.id),x]));
   let added=0;
   for(const x of incoming){const prev=map.get(String(x.id));if(!prev){added++;map.set(String(x.id),x);}else map.set(String(x.id),{...x,...prev,lastSeenAt:x.discoveredAt});}
-  const items=[...map.values()].sort((a,b)=>String(b.published||b.discoveredAt||'').localeCompare(String(a.published||a.discoveredAt||''))).slice(0,600);
+  const items=[...map.values()].sort((a,b)=>String(b.published||b.discoveredAt||'').localeCompare(String(a.published||a.discoveredAt||'')));
   await store.setJSON('current',items);
+  await store.setJSON('batch-checkpoint',{day,complete:true,count:incoming.length,pages:seen.size,at:new Date().toISOString()});
   await store.setJSON('last-run',{at:new Date().toISOString(),via:page.via,found:incoming.length,added,total:items.length});
   return {items,added,found:incoming.length,total:items.length,via:page.via,newIds:incoming.filter(x=>!current.some(y=>String(y.id)===String(x.id))).map(x=>x.id)};
 }

@@ -3,7 +3,8 @@ const $$=s=>[...document.querySelectorAll(s)];
 const yen=n=>n==null?'未確認':'¥'+Math.round(Number(n)).toLocaleString('ja-JP');
 const displayTime=v=>v&&Number.isFinite(Date.parse(v))?new Date(v).toLocaleString('zh-TW',{timeZone:'Asia/Taipei',hour12:false}):'尚未執行';
 let discoveries=[], analyzedCases=[], currentView='auto';
-let analysisRun=0, analysisController=null;
+let analysisRun=0, analysisController=null,autoLimit=30;
+const pendingCover='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600"><rect width="900" height="600" fill="#e4ebed"/><text x="450" y="300" text-anchor="middle" font-family="sans-serif" font-size="36" fill="#375060">待主圖</text></svg>`);
 let selected=new Set(JSON.parse(localStorage.getItem('auction-shortlist')||'[]'));
 
 init();
@@ -22,7 +23,7 @@ async function loadDiscoveries(){
     const r=await fetch('/api/discoveries',{cache:'no-store'});
     if(r.ok){const data=await r.json();if(Array.isArray(data?.items)&&data.items.length)return data.items;}
   }catch{}
-  return fetch('data/discoveries.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>[]);
+  return Promise.all(['data/discoveries.json','data/discoveries-extra.json'].map(p=>fetch(p,{cache:'no-store'}).then(r=>r.json()).catch(()=>[]))).then(parts=>parts.flat());
 }
 async function refreshDiscoveries(){
   const b=$('#refreshDiscoveries'); if(!b)return;
@@ -32,7 +33,7 @@ async function refreshDiscoveries(){
     const data=await r.json().catch(()=>({}));
     discoveries=await loadDiscoveries();
     hydrateFilters(true);renderDiscover();renderShortlist();updateCounts();renderResearch();
-    b.textContent=data.added?`新增 ${data.added} 筆`:'已更新';
+    if(!r.ok)throw new Error('更新未啟動');b.textContent=data.queued?'已排入更新':data.added?`新增 ${data.added} 筆`:'已更新';
   }catch{b.textContent='更新失敗';}
   setTimeout(()=>{b.disabled=false;b.textContent=old},2200);
 }
@@ -100,7 +101,7 @@ function discoveryCard(x){
   const chosen=selected.has(x.id);
   return `<article class="treasure-card photo-card">
     <div class="property-photo-wrap">
-      <img class="property-photo" loading="lazy" decoding="async" src="${propertyImageUrl(x)}" alt="${escapeHtml(x.title)}" onerror="photoFallback(this,this.alt)" />
+      <img class="property-photo" loading="lazy" decoding="async" src="${x.imageReady?propertyImageUrl(x):pendingCover}" alt="${escapeHtml(x.title)}" onerror="photoFallback(this,this.alt)" />
       <div class="photo-shade"></div>
       <div class="tag-stack">${(x.tags||[]).slice(0,3).map(t=>`<span>${t}</span>`).join('')}</div>
       <div class="photo-location">${x.prefecture||'地區待確認'}${x.city?' · '+x.city:''}</div>
@@ -246,9 +247,10 @@ function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':
 function renderResearch(){
  const live=discoveries.filter(x=>!ResearchRules.closed(x)).map(x=>({...x,research:ResearchRules.screen(x)})).sort((a,b)=>b.research.score-a.research.score||a.id.localeCompare(b.id));
  const eligible=live.filter(x=>x.research.eligible);
- $('#autoSummary').textContent=`目前收錄 ${live.length} 件未結束物件，${eligible.length} 件符合均衡初篩；全日本、不限預算。收錄範圍尚非全國完整清單。`;
- $('#autoGrid').innerHTML=eligible.map(x=>`<div class="research-item"><div class="research-note"><b>值得研究 · 研究優先分 ${x.research.score}/100</b><ul>${x.research.reasons.map(t=>`<li>${escapeHtml(t)}</li>`).join('')}</ul><details><summary>待查事項</summary><ul>${x.research.pending.map(t=>`<li>${escapeHtml(t)}</li>`).join('')}</ul></details></div>${discoveryCard(x)}</div>`).join('')||empty('目前沒有符合初篩條件的物件');
+ $('#autoSummary').textContent=`目前收錄 ${live.length} 件未結束物件，${eligible.length} 件符合均衡初篩；全日本、不限預算。已補入 9/15 公告完整 244 件（9 頁）。收錄範圍尚非全國在售全集。`;
+ $('#autoGrid').innerHTML=eligible.slice(0,autoLimit).map(x=>`<div class="research-item"><div class="research-note"><b>值得研究 · 研究優先分 ${x.research.score}/100</b><ul>${x.research.reasons.map(t=>`<li>${escapeHtml(t)}</li>`).join('')}</ul><details><summary>待查事項</summary><ul>${x.research.pending.map(t=>`<li>${escapeHtml(t)}</li>`).join('')}</ul></details></div>${discoveryCard(x)}</div>`).join('')||empty('目前沒有符合初篩條件的物件');
  $('#observationList').innerHTML=live.filter(x=>!x.research.eligible).map(x=>`<p><b>#${escapeHtml(x.id)} ${escapeHtml(x.title)}</b> · ${x.research.label}（${x.research.score}/100）<br>${x.research.reasons.map(escapeHtml).join('；')}<br>待查：${x.research.pending.map(escapeHtml).join('；')}</p>`).join('');
+ $('#autoMore').hidden=autoLimit>=eligible.length;$('#autoMore').textContent=`顯示更多（已顯示 ${Math.min(autoLimit,eligible.length)}／${eligible.length}）`;$('#autoMore').onclick=()=>{autoLimit+=30;renderResearch();};
  const ended=discoveries.filter(x=>ResearchRules.closed(x));
  const pref=$('#endedPref').value,type=$('#endedType').value;
  const prefs=[...new Set(ended.map(x=>x.prefecture).filter(Boolean))].sort();
