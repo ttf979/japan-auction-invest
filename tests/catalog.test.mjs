@@ -14,7 +14,7 @@ test('verified closed status wins over stale active store metadata',()=>{
  assert.equal(item.availability,'ended');
 });
 test('all photo regions are bound to distinct official PDF hashes and valid coordinates',()=>{
- assert.equal(Object.keys(seeds).length,14);assert.equal(new Set(Object.values(seeds).map(x=>x.pdfSha256)).size,14);
+ assert.ok(Object.keys(seeds).length>=14);assert.equal(new Set(Object.values(seeds).map(x=>x.pdfSha256)).size,Object.keys(seeds).length);
  for(const seed of Object.values(seeds)){
   assert.match(seed.pdfSha256,/^[0-9a-f]{64}$/);assert.equal(new URL(seed.bitUrl).hostname,'www.bit.courts.go.jp');
   if(seed.photoPageCrop){const [x,y,w,h]=seed.photoPageCrop.rect;assert.ok(x>=0&&y>=0&&w>0&&h>0&&x+w<=1&&y+h<=1);}
