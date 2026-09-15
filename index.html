@@ -4,13 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>日本法拍屋投資篩選系統 V2.7｜FuHouseJoy</title>
-  <link rel="stylesheet" href="styles.css?v=270" />
+  <link rel="stylesheet" href="styles.css?v=271" />
 </head>
 <body>
   <header class="topbar">
     <button class="brand-wrap" data-nav="discover">
       <span class="brand-mark">FJ</span>
-      <span><b>日本法拍屋投資篩選系統</b><small>FuHouseJoy · V2.7 真實物件照片 · 尋寶 → BIT → Blobs → 主圖 → 分析</small></span>
+      <span><b>日本法拍屋投資篩選系統</b><small>FuHouseJoy · V2.7 真實物件照片 · 多物件驗收</small></span>
     </button>
     <nav class="nav-tabs">
       <button class="nav-tab active" data-nav="discover">新着尋寶 <em id="discoverCount">0</em></button>
@@ -28,9 +28,9 @@
           <p>先大量看新物件，看到有趣的再收進自己的篩選清單。首頁先看真實案件照片、價格與地點，喜歡再收進篩選清單，最後才進分析工作台。</p>
         </div>
         <div class="hero-stats">
-          <div><b id="heroNewCount">0</b><span>近期物件</span></div>
-          <div><b id="heroCheapCount">0</b><span>500萬円以下</span></div>
-          <div><b id="heroFreshCount">0</b><span>築10年內</span></div>
+          <div><b id="heroNewCount">0</b><span>可閱覽物件</span></div>
+          <div><b id="heroCheapCount">0</b><span>真實主圖</span></div>
+          <div><b id="heroFreshCount">0</b><span>已結束案件</span></div>
         </div>
       </div>
 
@@ -57,7 +57,7 @@
         </select>
       </div>
 
-      <div class="treasure-head"><div><b>新着物件</b><span id="resultText"></span></div><span>點「加入篩選」才進入下一層</span></div>
+      <div class="treasure-head"><select id="discoverStatus" aria-label="案件狀態"><option value="active">可閱覽案件</option><option value="photo">已有真實照片</option><option value="pending">待主圖</option><option value="ended">已結束案件</option><option value="all">全部案件</option></select><div><b>新着物件</b><span id="resultText"></span></div><span>點「加入篩選」才進入下一層</span></div>
       <div id="discoverGrid" class="treasure-grid"></div>
     </section>
 
@@ -96,6 +96,6 @@
     </section>
   </main>
 
-  <script src="app.js?v=270"></script>
+  <script src="app.js?v=271"></script>
 </body>
 </html>

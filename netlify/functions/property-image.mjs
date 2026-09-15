@@ -1,12 +1,17 @@
 import { mediaStore, safeCaseId } from '../lib/archive.mjs';
 import { trustedPhoto, PHOTO_POLICY } from '../lib/photo-policy.mjs';
 import ingest from './ingest-case.mjs';
+import {preparedCover} from '../lib/prepared-cover.mjs';
 export default async (req) => {
   if (req.method !== 'GET') return new Response('method_not_allowed', { status: 405 });
   const u = new URL(req.url), id = u.searchParams.get('id') || '';
   if (!safeCaseId(id)) return Response.json({ok:false,error:'bad_case_id'}, {status:400});
   const debug = u.searchParams.get('debug') === '1', store = mediaStore();
   let cached = await store.getWithMetadata(`${id}/cover`, {type:'arrayBuffer'}).catch(()=>null), failure = null;
+  if (!cached?.data || !trustedPhoto(cached.metadata)) {
+    const built=preparedCover(id);
+    if(built){await store.set(`${id}/cover`,built.data,{metadata:built.metadata});cached=built;}
+  }
   if (!cached?.data || !trustedPhoto(cached.metadata)) {
     const url = u.searchParams.get('url');
     if (url) {

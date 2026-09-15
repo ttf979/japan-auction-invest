@@ -36,7 +36,7 @@ async function refreshDiscoveries(){
 
 function bindUI(){
   $$('[data-nav]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.nav)));
-  ['#discoverSearch','#discoverPref','#discoverType','#discoverPrice','#discoverSort'].forEach(s=>$(s).addEventListener('input',renderDiscover));
+  ['#discoverSearch','#discoverPref','#discoverType','#discoverPrice','#discoverSort','#discoverStatus'].forEach(s=>$(s).addEventListener('input',renderDiscover));
   $('#analysisGo').addEventListener('click',()=>runAnalysis($('#analysisInput').value));
   $('#analysisInput').addEventListener('keydown',e=>{if(e.key==='Enter')runAnalysis(e.target.value)});
   $$('[data-analyze]').forEach(b=>b.addEventListener('click',()=>{showView('analyze');$('#analysisInput').value=b.dataset.analyze;runAnalysis(b.dataset.analyze)}));
@@ -59,16 +59,21 @@ function hydrateFilters(reset=false){
   $('#discoverType').insertAdjacentHTML('beforeend',types.map(x=>`<option>${x}</option>`).join(''));
 }
 function updateCounts(){
-  $('#discoverCount').textContent=discoveries.length;
+  $('#discoverCount').textContent=discoveries.filter(x=>x.availability!=='ended').length;
   $('#shortlistCount').textContent=selected.size;
-  $('#heroNewCount').textContent=discoveries.length;
-  $('#heroCheapCount').textContent=discoveries.filter(x=>Number.isFinite(Number(x.price))&&Number(x.price)<=5000000).length;
-  $('#heroFreshCount').textContent=discoveries.filter(x=>Number.isFinite(Number(x.age))&&Number(x.age)<=10).length;
+  $('#heroNewCount').textContent=discoveries.filter(x=>x.availability!=='ended').length;
+  $('#heroCheapCount').textContent=discoveries.filter(x=>x.imageReady).length;
+  $('#heroFreshCount').textContent=discoveries.filter(x=>x.availability==='ended').length;
 }
 function renderDiscover(){
   const term=($('#discoverSearch').value||'').trim().toLowerCase();
   const pref=$('#discoverPref').value,type=$('#discoverType').value,max=Number($('#discoverPrice').value||0),sort=$('#discoverSort').value;
   let arr=discoveries.filter(x=>!term||[x.id,x.title,x.prefecture,x.city,x.address,x.court,x.station].join(' ').toLowerCase().includes(term));
+  const status=$('#discoverStatus').value;
+  if(status==='active')arr=arr.filter(x=>x.availability!=='ended');
+  if(status==='photo')arr=arr.filter(x=>x.imageReady);
+  if(status==='pending')arr=arr.filter(x=>!x.imageReady&&x.availability!=='ended');
+  if(status==='ended')arr=arr.filter(x=>x.availability==='ended');
   if(pref)arr=arr.filter(x=>x.prefecture===pref);if(type)arr=arr.filter(x=>x.type===type);if(max)arr=arr.filter(x=>x.price<=max);
   arr=[...arr].sort((a,b)=>sort==='cheap'?(Number(a.price)||9e15)-(Number(b.price)||9e15):sort==='area'?(Number(b.area)||0)-(Number(a.area)||0):sort==='age'?(Number(a.age)||999)-(Number(b.age)||999):String(b.published||'').localeCompare(String(a.published||'')));
   $('#resultText').textContent=` · ${arr.length} 件`;
@@ -78,7 +83,7 @@ function renderDiscover(){
 function propertyImageUrl(x){
   // V2.1.1: 由自己的 Netlify Function 讀來源案件頁並代理主圖，
   // 不再依賴 Microlink，也避免來源站防盜連造成瀏覽器直接載圖失敗。
-  return `/api/property-image?id=${encodeURIComponent(x.id)}&url=${encodeURIComponent(x.sourceUrl||'')}&title=${encodeURIComponent(x.title)}&v=270`;
+  return `/api/property-image?id=${encodeURIComponent(x.id)}&url=${encodeURIComponent(x.sourceUrl||'')}&title=${encodeURIComponent(x.title)}&v=271`;
 }
 function photoFallback(el,label,sourceUrl){
   const safe=String(label||'日本法拍物件').slice(0,18).replace(/[<>&"']/g,'');
@@ -98,7 +103,7 @@ function discoveryCard(x){
     <div class="treasure-body">
       <div class="price-line"><b>${yen(x.price)}</b><span>${x.type||'類型待確認'}${x.area?' · '+x.area+'m²':''}</span></div>
       <h3 title="${escapeHtml(x.title)}">${x.title}</h3>
-      <div class="address">${x.prefecture||''}${x.city||''}${x.address||''}</div>
+      <div class="address">${escapeHtml(x.address||[x.prefecture,x.city].filter(Boolean).join(''))}</div>
       <div class="data-status-row"><span class="status-pill bit ${String(x.bitStatus||'').includes('已定位')?'ok':'pending'}">${escapeHtml(x.bitStatus||'待BIT定位')}</span><span class="status-pill image ${String(x.imageStatus||'').includes('已建立')?'ok':'pending'}">${escapeHtml(x.imageStatus||'待主圖')}</span></div>
       <dl class="mini-specs">
         <div><dt>法院</dt><dd>${x.court||'待確認'}</dd></div>
@@ -106,6 +111,7 @@ function discoveryCard(x){
         <div><dt>交通</dt><dd>${x.station||'待確認'}</dd></div>
         <div><dt>築年</dt><dd>${x.age!=null?x.age+' 年':'待確認'}</dd></div>
       </dl>
+      <div class="document-links">${x.bitUrl?`<a href="${x.bitUrl}" target="_blank" rel="noreferrer">法院三點件 ↗</a>`:''}${x.imageReady?`<a href="/api/property-image?id=${encodeURIComponent(x.id)}" target="_blank" rel="noreferrer">查看主圖 ↗</a>`:''}</div>
       <div class="card-actions">
         <button class="shortlist-btn ${chosen?'selected':''}" data-shortlist="${x.id}">${chosen?'✓ 已加入篩選':'＋ 加入篩選'}</button>
         <button class="analyze-btn" data-analyze-card="${x.id}">分析</button>

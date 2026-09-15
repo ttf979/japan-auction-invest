@@ -19,3 +19,9 @@ POST /api/ingest-case with {"caseId":"297562","url":"https://xn--55q36pba3495a.c
 ## PDF runtime compatibility
 
 Photo decoding runs automatically during Netlify builds. The ingest API downloads the current official PDF and verifies its SHA-256 against the build-prepared image before storing that image in Blobs. A new or changed PDF without a matching prepared image remains 待主圖 until a subsequent build prepares it. Known official BIT references belong in data/bit-sources.json. This avoids loading native PDF/image decoders in request-serving functions.
+
+## Multi-case acceptance (2026-09-15)
+
+The source audit resolves 21 unique case URLs: 14 currently readable official court bundles and 7 ended cases. Search-page placeholders and duplicate aliases are excluded. The 14 official documents have visually reviewed exterior photo regions, locked to each PDF SHA-256. Scanned page regions are extracted from the full-page color layer during every Netlify build; a changed or missing document remains pending without blocking other cases.
+
+The homepage defaults to readable cases and offers photo/pending/ended/all filters. Each ready card links to the original court PDF and the actual JPEG. The discoveries API merges canonical case identities and archive records; the image API can initialize the verified build-prepared photo directly in Blobs. Document ingest re-downloads and verifies the court PDF before archiving. Future unregistered cases still require locating their official PDF and reviewing a photo region; unverified images are never substituted.

@@ -25,7 +25,7 @@ async function imageObjectToJpeg(img){
   return out.toBuffer('image/jpeg',84);
 }
 
-export async function extractLargestPhotoFromPdf(pdfBuffer,{maxPages=40,verifiedCrop=null}={}){
+export async function extractLargestPhotoFromPdf(pdfBuffer,{maxPages=40,verifiedCrop=null,verifiedPageCrop=null}={}){
   ({createCanvas,ImageData,loadImage}=await import('@napi-rs/canvas'));
   const pdfjs=await import('pdfjs-dist/legacy/build/pdf.mjs');
   const {getDocument,OPS}=pdfjs; ImageKind=pdfjs.ImageKind;
@@ -34,6 +34,27 @@ export async function extractLargestPhotoFromPdf(pdfBuffer,{maxPages=40,verified
   const loading=getDocument({data:new Uint8Array(pdfBuffer),useSystemFonts:true,disableFontFace:true,
     wasmUrl:join(root,'wasm')+'/',standardFontDataUrl:join(root,'standard_fonts')+'/',useWorkerFetch:false,verbosity:0});
   const pdf=await loading.promise; let best=null;
+  if(verifiedPageCrop){
+    try{
+      const {page:pageNumber,rect}=verifiedPageCrop;
+      if(!Number.isInteger(pageNumber)||pageNumber<1||pageNumber>pdf.numPages||!Array.isArray(rect)||rect.length!==4)throw new Error('invalid_photo_region');
+      const [x,y,w,h]=rect;
+      if(!rect.every(Number.isFinite)||x<0||y<0||w<=0||h<=0||x+w>1||y+h>1)throw new Error('invalid_photo_region');
+      const page=await pdf.getPage(pageNumber),viewport=page.getViewport({scale:1}),ops=await page.getOperatorList();
+      let largest=null;
+      for(let i=0;i<ops.fnArray.length;i++){
+        let img=null;
+        if(ops.fnArray[i]===OPS.paintInlineImageXObject)img=ops.argsArray[i]?.[0];
+        else if(ops.fnArray[i]===OPS.paintImageXObject){const id=ops.argsArray[i]?.[0];if(id)img=await objectPromise(page.objs,id);}
+        if(!img||img.width<500||img.height<700||Math.abs(img.width/img.height-viewport.width/viewport.height)>.025)continue;
+        if(!largest||img.width*img.height>largest.width*largest.height){const jpeg=await imageObjectToJpeg(img);if(jpeg)largest={width:img.width,height:img.height,jpeg};}
+      }
+      if(!largest)throw new Error('verified_scan_layer_missing');
+      const scan=await loadImage(largest.jpeg),out=createCanvas(Math.round(w*scan.width),Math.round(h*scan.height));
+      out.getContext('2d').drawImage(scan,x*scan.width,y*scan.height,w*scan.width,h*scan.height,0,0,out.width,out.height);
+      return {body:out.toBuffer('image/jpeg',88),page:pageNumber,contentType:'image/jpeg',method:'three-doc-pdf'};
+    }finally{await loading.destroy?.();}
+  }
   for(let p=1;p<=Math.min(pdf.numPages,maxPages);p++){
     if(verifiedCrop && p!==verifiedCrop.page)continue;
     const page=await pdf.getPage(p); let boost=1;

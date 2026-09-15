@@ -19,3 +19,5 @@
 
 /* V2.6 Blobs document links */
 .doc-downloads{margin:14px 0;padding:12px;border:1px solid var(--line);border-radius:12px;background:#f8fafb;display:flex;gap:8px;align-items:center;flex-wrap:wrap}.doc-downloads b{margin-right:4px;font-size:12px}.doc-downloads a{font-size:11px;font-weight:800;color:var(--navy);text-decoration:none;border:1px solid #d9e0e6;background:white;border-radius:9px;padding:7px 9px}
+
+.document-links{display:flex;gap:16px;flex-wrap:wrap;margin:12px 0;font-size:13px}.document-links a{color:#234e69;text-decoration:none}.treasure-head select{padding:10px;border:1px solid #ddd;border-radius:10px;background:white;color:#18344f}

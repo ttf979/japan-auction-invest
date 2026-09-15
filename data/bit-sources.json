@@ -2,7 +2,7 @@
   "297562": {
     "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=35311&saleUnitId=00000013128",
     "sourceUrl": "https://xn--55q36pba3495a.com/auction/297562.html",
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-15T14:38:43.323249+00:00",
     "caseNumber": "令和08年(ケ)第38号",
     "pdfSha256": "d33a31f3730d391be11043c986bb320fe5de6738bf0eeb6cd5ca0d71dd47d666",
     "photoCrop": {
@@ -14,6 +14,214 @@
         667,
         588,
         394
+      ]
+    }
+  },
+  "297274": {
+    "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=31711&saleUnitId=00000014843",
+    "sourceUrl": "https://xn--55q36pba3495a.com/auction/297274.html",
+    "caseNumber": "令和08年(ケ)第13号",
+    "pdfSha256": "8c68f4e6d81cd0e98218067a99b81b93fd97aaeecad30f6e85f2de8a338d22c9",
+    "verifiedAt": "2026-09-15T14:38:43.323249+00:00",
+    "photoPageCrop": {
+      "page": 20,
+      "rect": [
+        0.13,
+        0.127,
+        0.71,
+        0.37
+      ]
+    }
+  },
+  "297467": {
+    "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=36411&saleUnitId=00000006921",
+    "sourceUrl": "https://xn--55q36pba3495a.com/auction/297467.html",
+    "caseNumber": "令和08年(ケ)第6号",
+    "pdfSha256": "5d5668f3ca91faa2de18bd8699c428d84bc413d0c165d66cbf9ddea6dd689e7d",
+    "verifiedAt": "2026-09-15T14:38:43.323249+00:00",
+    "photoPageCrop": {
+      "page": 23,
+      "rect": [
+        0.3,
+        0.097,
+        0.45,
+        0.232
+      ]
+    }
+  },
+  "297473": {
+    "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=36411&saleUnitId=00000006930",
+    "sourceUrl": "https://xn--55q36pba3495a.com/auction/297473.html",
+    "caseNumber": "令和08年(ケ)第13号",
+    "pdfSha256": "fd13cde99c7134b72cc2d4224df76c0ccaf860a0a60b4fbd63877bc797788dae",
+    "verifiedAt": "2026-09-15T14:38:43.323249+00:00",
+    "photoPageCrop": {
+      "page": 19,
+      "rect": [
+        0.15,
+        0.106,
+        0.74,
+        0.342
+      ]
+    }
+  },
+  "297558": {
+    "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=35311&saleUnitId=00000013144",
+    "sourceUrl": "https://xn--55q36pba3495a.com/auction/297558.html",
+    "caseNumber": "令和08年(ケ)第30号",
+    "pdfSha256": "6ae90446495d36ae1797ccc58012aa32eb9400a87629fbadbdd3a4e40cef4b1b",
+    "verifiedAt": "2026-09-15T14:38:43.323249+00:00",
+    "photoPageCrop": {
+      "page": 15,
+      "rect": [
+        0.3,
+        0.097,
+        0.475,
+        0.218
+      ]
+    }
+  },
+  "297559": {
+    "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=35311&saleUnitId=00000013146",
+    "sourceUrl": "https://xn--55q36pba3495a.com/auction/297559.html",
+    "caseNumber": "令和07年(ケ)第88号",
+    "pdfSha256": "574e8ee3b823666d1b42a59f564c984c308d57a99ecd8e193e5dd2f59e0eaf61",
+    "verifiedAt": "2026-09-15T14:38:43.323249+00:00",
+    "photoPageCrop": {
+      "page": 21,
+      "rect": [
+        0.3,
+        0.1,
+        0.475,
+        0.214
+      ]
+    }
+  },
+  "297560": {
+    "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=35311&saleUnitId=00000013149",
+    "sourceUrl": "https://xn--55q36pba3495a.com/auction/297560.html",
+    "caseNumber": "令和08年(ヌ)第21号",
+    "pdfSha256": "7822627ed52c704ed5227853a2eb6c5f9499aab84f6ec9354902c674fe0679f9",
+    "verifiedAt": "2026-09-15T14:38:43.323249+00:00",
+    "photoPageCrop": {
+      "page": 15,
+      "rect": [
+        0.3,
+        0.097,
+        0.475,
+        0.218
+      ]
+    }
+  },
+  "297561": {
+    "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=35311&saleUnitId=00000013151",
+    "sourceUrl": "https://xn--55q36pba3495a.com/auction/297561.html",
+    "caseNumber": "令和07年(ケ)第89号",
+    "pdfSha256": "a3cf2b5f73fb848f20892ac603bd6b986bcaa243a89933b5b605a7b96d62353f",
+    "verifiedAt": "2026-09-15T14:38:43.323249+00:00",
+    "photoPageCrop": {
+      "page": 21,
+      "rect": [
+        0.305,
+        0.087,
+        0.47,
+        0.214
+      ]
+    }
+  },
+  "297563": {
+    "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=35311&saleUnitId=00000013147",
+    "sourceUrl": "https://xn--55q36pba3495a.com/auction/297563.html",
+    "caseNumber": "令和07年(ヌ)第63号",
+    "pdfSha256": "d04782309a5250493f28fb3726862afbc9edd68d97532a6ecda602f66566f3be",
+    "verifiedAt": "2026-09-15T14:38:43.323249+00:00",
+    "photoPageCrop": {
+      "page": 18,
+      "rect": [
+        0.3,
+        0.133,
+        0.47,
+        0.221
+      ]
+    }
+  },
+  "297566": {
+    "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=35331&saleUnitId=00000003946",
+    "sourceUrl": "https://xn--55q36pba3495a.com/auction/297566.html",
+    "caseNumber": "令和07年(ヌ)第10号",
+    "pdfSha256": "b03da3fc11669701e8d152a8d30c07b0f4064f156b561b672704cd406cef5cc8",
+    "verifiedAt": "2026-09-15T14:38:43.323249+00:00",
+    "photoPageCrop": {
+      "page": 15,
+      "rect": [
+        0.3,
+        0.36,
+        0.47,
+        0.224
+      ]
+    }
+  },
+  "297567": {
+    "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=35331&saleUnitId=00000003949",
+    "sourceUrl": "https://xn--55q36pba3495a.com/auction/297567.html",
+    "caseNumber": "令和07年(ケ)第1号",
+    "pdfSha256": "ad0e69d17190ffb6eeb2e36c9bb9d70c60f43adc9e2576627127526823a9ab82",
+    "verifiedAt": "2026-09-15T14:38:43.323249+00:00",
+    "photoPageCrop": {
+      "page": 23,
+      "rect": [
+        0.3,
+        0.097,
+        0.47,
+        0.218
+      ]
+    }
+  },
+  "297578": {
+    "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=39311&saleUnitId=00000008492",
+    "sourceUrl": "https://xn--55q36pba3495a.com/auction/297578.html",
+    "caseNumber": "令和08年(ケ)第18号",
+    "pdfSha256": "536a22a240b3db936478d7f01d203aa34dc1cf0e6404db0dd9750287a66e0df6",
+    "verifiedAt": "2026-09-15T14:38:43.323249+00:00",
+    "photoPageCrop": {
+      "page": 15,
+      "rect": [
+        0.25,
+        0.215,
+        0.5,
+        0.265
+      ]
+    }
+  },
+  "297579": {
+    "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=39311&saleUnitId=00000008499",
+    "sourceUrl": "https://xn--55q36pba3495a.com/auction/297579.html",
+    "caseNumber": "令和08年(ケ)第11号",
+    "pdfSha256": "4c72dfb1300ea3e78f4236eb7b3b23e665339bb0c9c507a057c53f47f84558fb",
+    "verifiedAt": "2026-09-15T14:38:43.323249+00:00",
+    "photoPageCrop": {
+      "page": 16,
+      "rect": [
+        0.255,
+        0.18,
+        0.49,
+        0.254
+      ]
+    }
+  },
+  "297580": {
+    "bitUrl": "https://www.bit.courts.go.jp/app/detail/pd001/h04?courtId=39311&saleUnitId=00000008493",
+    "sourceUrl": "https://xn--55q36pba3495a.com/auction/297580.html",
+    "caseNumber": "令和08年(ケ)第10号",
+    "pdfSha256": "08f87a4c45beebabc52c39f258d3870828d4d9655745db2bb113b94295938486",
+    "verifiedAt": "2026-09-15T14:38:43.323249+00:00",
+    "photoPageCrop": {
+      "page": 16,
+      "rect": [
+        0.25,
+        0.175,
+        0.5,
+        0.26
       ]
     }
   }
