@@ -290,6 +290,146 @@
         ],
         "note": "以物件精確座標出發，核對 30 分鐘開車圈內符合大型企業定義的營運據點；同址 Sanden 本社與 Global Center 視為同一廠區去重，只計 1 處。"
       }
+    },
+    "297735": {
+      "shinkansen": {
+        "status": "verified",
+        "station": "氷川台駅",
+        "destination": "東京駅",
+        "minutes": 35,
+        "departureAt": "2026-09-16T12:51:00+09:00",
+        "arrivalAt": "2026-09-16T13:26:00+09:00",
+        "transfers": 0,
+        "includesTransferWait": true,
+        "sources": [
+          {
+            "url": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E6%9D%B1%E4%BA%AC%E9%A7%85/data=!4m2!4m1!3e3",
+            "label": "Google Maps 大眾運輸：氷川台 12:51 → 東京 13:26，35 分鐘",
+            "checkedAt": "2026-09-16T11:45:00+08:00"
+          }
+        ],
+        "note": "氷川台駅搭東京メトロ有楽町線直達有楽町站，再步行至東京站新幹線區域；路線總時間 35 分鐘，包含班次等候與步行，屬 31–60 分鐘級。"
+      },
+      "dining": {
+        "status": "pending",
+        "station": "氷川台駅",
+        "stationExit": "全出口",
+        "walkingMeters": 300,
+        "count": null,
+        "deduplicated": true,
+        "coverageComplete": false,
+        "catalogCount": 38,
+        "catalogCandidates": [
+          "氷川台 浪漫酒場",
+          "晴れのち晴れ",
+          "蕎庵 あおい",
+          "炭火焼肉 MEGUMI",
+          "サイゼリヤ 氷川台駅前店",
+          "トラットリア オットブラータ",
+          "ビバパエリア 練馬店",
+          "マクドナルド 氷川台駅前店",
+          "焔",
+          "創作家庭料理モコ",
+          "ダン・ブラウン サミットストア 氷川台駅前店",
+          "ファイヤークラッカー",
+          "ささら",
+          "惣八鮨",
+          "お酒とごはん 菜々",
+          "アンジェリーナ 氷川台店",
+          "匠",
+          "松屋 氷川台店",
+          "味の店 よし野",
+          "アンテンドゥ 氷川台店",
+          "ピザーラ 練馬店",
+          "Welcome to the Jungle",
+          "BURGER KING 氷川台駅前店",
+          "新発田屋",
+          "すき家 氷川台駅前店",
+          "Chez Soi",
+          "鉄板焼 あたご",
+          "きころく 練馬氷川台",
+          "レストラン ミュール",
+          "カフェヴェントゥーノ",
+          "がんちゃん",
+          "ピザハウス カルダモン",
+          "CASAS"
+        ],
+        "excluded": [
+          {
+            "name": "ファミリーマート 氷川台駅前店",
+            "reason": "便利商店，不屬餐廳或居酒屋"
+          },
+          {
+            "name": "ビッグ・エー 氷川台駅前店",
+            "reason": "超市，不屬餐廳或居酒屋"
+          },
+          {
+            "name": "セブンイレブン 氷川台駅前店",
+            "reason": "便利商店，不屬餐廳或居酒屋"
+          },
+          {
+            "name": "サミットストア 氷川台駅前店",
+            "reason": "超市，不屬餐廳或居酒屋"
+          },
+          {
+            "name": "総合園芸センター ふれあいの里",
+            "reason": "園藝中心，不屬餐廳或居酒屋"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://tabelog.com/tokyo/A1322/A132202/R8365/rstLst/?LstRange=SF",
+            "label": "食べログ：氷川台駅 300m 篩選，目錄 38 件",
+            "checkedAt": "2026-09-16T11:45:00+08:00"
+          },
+          {
+            "url": "https://tabelog.com/tokyo/A1322/A132202/R8365/rstLst/2/?LstRange=SF",
+            "label": "食べログ：氷川台駅 300m 篩選第 2 頁",
+            "checkedAt": "2026-09-16T11:45:00+08:00"
+          }
+        ],
+        "note": "已完成目錄名單去重與非餐飲類別排除；食べログ的站距不能證明從各出口的實際步行路線，故依規則維持待查，不以 38 件直接計分。"
+      },
+      "employment": {
+        "status": "verified",
+        "mode": "driving",
+        "coverageComplete": true,
+        "origin": {
+          "address": "東京都練馬区氷川台3丁目1番17号",
+          "sourceUrl": "https://www.google.com/maps/dir/%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B03%E4%B8%81%E7%9B%AE1%E7%95%AA17/%E6%9D%B1%E6%98%A0%E3%82%A2%E3%83%8B%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E5%A4%A7%E6%B3%89%E3%82%B9%E3%82%BF%E3%82%B8%E3%82%AA/data=!4m2!4m1!3e0"
+        },
+        "checkedDepartureAt": "2026-09-16T12:50:00+09:00",
+        "sites": [
+          {
+            "siteId": "toei-animation-oizumi-studio",
+            "name": "東映アニメーション 大泉スタジオ",
+            "kind": "studio",
+            "address": "東京都練馬区東大泉2丁目10番5号",
+            "minutes": 24,
+            "distanceKm": 8.4,
+            "majorEmployer": true,
+            "majorEmployerBasis": "東映アニメーション官方公司概要記載合併員工 1,048 人；大泉スタジオ為公司官方製作據點。"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://www.google.com/maps/dir/%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B03%E4%B8%81%E7%9B%AE1%E7%95%AA17/%E6%9D%B1%E6%98%A0%E3%82%A2%E3%83%8B%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E5%A4%A7%E6%B3%89%E3%82%B9%E3%82%BF%E3%82%B8%E3%82%AA/data=!4m2!4m1!3e0",
+            "label": "Google Maps：物件至東映動畫大泉工作室開車 24 分鐘、8.4 公里",
+            "checkedAt": "2026-09-16T11:45:00+08:00"
+          },
+          {
+            "url": "https://corp.toei-anim.co.jp/ja/company/outline.html",
+            "label": "東映動畫官方公司概要：合併員工 1,048 人",
+            "checkedAt": "2026-09-16T11:45:00+08:00"
+          },
+          {
+            "url": "https://corp.toei-anim.co.jp/ja/recruit/mid-career_recruitment/essentials/productioncons/production_management/productioncons_20.html",
+            "label": "東映動畫官方招募頁：大泉工作室地址",
+            "checkedAt": "2026-09-16T11:45:00+08:00"
+          }
+        ],
+        "note": "以物件門牌為起點，Google Maps 即時開車路線 24 分鐘；官方資料確認該處為大泉製作工作室及公司規模。"
+      }
     }
   }
 }
