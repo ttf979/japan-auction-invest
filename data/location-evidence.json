@@ -40,24 +40,24 @@
         "municipality": "伊勢崎市",
         "current": 211011,
         "currentDate": "2026-03-31",
-        "previous": null,
-        "previousDate": null,
+        "previous": 212946,
+        "previousDate": "2021-03-31",
         "periodYears": 5,
-        "comparable": false,
+        "comparable": true,
         "basis": "住民基本台帳・含外國人",
         "sources": [
           {
             "url": "https://www.city.isesaki.lg.jp/material/files/group/16/nenreibetu-zinkou-all_R08_03_31.pdf",
-            "label": "伊勢崎市 2026-03-31 年齡別人口調查表（含外國人）",
-            "checkedAt": "2026-09-16T00:00:00+08:00"
+            "label": "伊勢崎市 2026-03-31 年齡別人口調查表（住民基本台帳、含外國人）",
+            "checkedAt": "2026-09-16T10:00:00+08:00"
           },
           {
             "url": "https://www.city.isesaki.lg.jp/material/files/group/110/kenkouisesaki21_dai3ji.pdf",
-            "label": "健康いせさき21 第3次・PDF 第12頁人口推移（2021-03-31）",
-            "checkedAt": "2026-09-16T00:00:00+08:00"
+            "label": "健康いせさき21 第3次第6頁：2021-03-31 人口 212,946（住民基本台帳）",
+            "checkedAt": "2026-09-16T10:00:00+08:00"
           }
         ],
-        "note": "人口已核對；五年基期圖表仍待視覺覆核，暫不計趨勢分。"
+        "note": "兩期均為伊勢崎市住民基本台帳、含外國人、3 月 31 日口徑；2021 年 212,946 人，2026 年 211,011 人。"
       }
     },
     "東京都|練馬区": {
@@ -175,5 +175,121 @@
     }
   },
   "version": 1,
-  "cases": {}
+  "cases": {
+    "297274": {
+      "shinkansen": {
+        "status": "verified",
+        "station": "国定駅",
+        "destination": "高崎駅",
+        "minutes": 45,
+        "departureAt": "2026-09-16T11:35:00+09:00",
+        "arrivalAt": "2026-09-16T12:20:00+09:00",
+        "transfers": 0,
+        "includesTransferWait": true,
+        "sources": [
+          {
+            "url": "https://www.google.com/maps/dir/%E5%9C%8B%E5%AE%9A+%E6%97%A5%E6%9C%AC%E3%80%92379-2221+Gunma,+Isesaki,+Kunisadamachi,+2-ch%C5%8Dme/%E9%AB%98%E5%B4%8E+%E6%97%A5%E6%9C%AC+Gunma,+Takasaki,+Yashimacho/data=!4m2!4m1!3e3",
+            "label": "Google Maps 大眾運輸：国定 11:35 → 高崎 12:20，45 分鐘",
+            "checkedAt": "2026-09-16T10:00:00+08:00"
+          },
+          {
+            "url": "https://www.jreast-timetable.jp/timetable/list0621.html",
+            "label": "JR東日本 国定駅時刻表（高崎方向）",
+            "checkedAt": "2026-09-16T10:00:00+08:00"
+          }
+        ],
+        "note": "国定駅搭 JR 両毛線直達高崎駅；高崎站可轉乘上越、北陸新幹線。零次轉乘，因此無轉乘等候；所列 45 分鐘為該班次全程時間。"
+      },
+      "dining": {
+        "status": "verified",
+        "station": "国定駅",
+        "stationExit": "国定駅出口（單一出口）",
+        "walkingMeters": 300,
+        "count": 0,
+        "deduplicated": true,
+        "coverageComplete": true,
+        "establishments": [],
+        "excluded": [
+          {
+            "name": "Cafe&BAR Est(エスト)",
+            "reason": "Google Maps 步行路線 350 公尺，超過 300 公尺範圍",
+            "walkingMeters": 350
+          },
+          {
+            "name": "CEYLON ROYAL TASTE",
+            "reason": "與 Cafe&BAR Est 位於同址街廓，步行路線超過 300 公尺範圍"
+          },
+          {
+            "name": "サン汰歩恵",
+            "reason": "食べログ標示 310 公尺且營業狀態為掲載保留，排除"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://map.yahoo.co.jp/v3/place/XOxUBb5D_pc",
+            "label": "Yahoo!地圖 国定駅：單一「出口」位置",
+            "checkedAt": "2026-09-16T10:00:00+08:00"
+          },
+          {
+            "url": "https://www.google.com/maps/search/%E3%83%AC%E3%82%B9%E3%83%88%E3%83%A9%E3%83%B3+%E5%B1%85%E9%85%92%E5%B1%8B/@36.3587901,139.2419796,18z",
+            "label": "Google Maps 国定駅周邊餐廳／居酒屋搜尋",
+            "checkedAt": "2026-09-16T10:00:00+08:00"
+          },
+          {
+            "url": "https://www.google.com/maps/dir/36.3587901,139.2419796/Cafe%26BAR+Est(%E3%82%A8%E3%82%B9%E3%83%88),+2+Chome-1865-5+Kunisadamachi,+Isesaki,+Gunma,+Japan/data=!4m2!4m1!3e2",
+            "label": "最近可確認營業餐飲 Cafe&BAR Est 步行 350 公尺",
+            "checkedAt": "2026-09-16T10:00:00+08:00"
+          },
+          {
+            "url": "https://tabelog.com/gunma/A1002/A100202/10004399/dtlmap/",
+            "label": "サン汰歩恵：距離 310 公尺、掲載保留",
+            "checkedAt": "2026-09-16T10:00:00+08:00"
+          }
+        ],
+        "note": "以 Yahoo! 地圖所列單一出口為起點，在 Google Maps 18 級縮放檢視餐廳與居酒屋並逐一去重；最近可確認營業店家的步行路線為 350 公尺，因此 300 公尺內計 0 家。"
+      },
+      "employment": {
+        "status": "verified",
+        "mode": "driving",
+        "coverageComplete": true,
+        "origin": {
+          "address": "群馬県伊勢崎市田部井町2丁目1274-5",
+          "latitude": 36.3522224,
+          "longitude": 139.2487615,
+          "sourceUrl": "https://map.yahoo.co.jp/v3/place/7OO_jMP8sIs"
+        },
+        "checkedDepartureAt": "2026-09-16T11:00:00+09:00",
+        "sites": [
+          {
+            "siteId": "sanden-hq-isesaki",
+            "name": "サンデン株式会社 本社",
+            "kind": "headquarters",
+            "address": "群馬県伊勢崎市寿町20",
+            "minutes": 15,
+            "distanceKm": 6.9,
+            "majorEmployer": true,
+            "majorEmployerBasis": "東京證券交易所 Standard 上市；2025 年底合併員工 4,791 人、年營收 1,909 億日圓。"
+          }
+        ],
+        "sources": [
+          {
+            "url": "https://map.yahoo.co.jp/v3/place/7OO_jMP8sIs",
+            "label": "Yahoo!地圖：物件地址與座標 36.3522224,139.2487615",
+            "checkedAt": "2026-09-16T10:00:00+08:00"
+          },
+          {
+            "url": "https://www.google.com/maps/dir/36.3522224,139.2487615/Sanden,+20+Kotobukicho,+Isesaki,+Gunma,+Japan/data=!4m2!4m1!3e0",
+            "label": "Google Maps：物件至 Sanden 本社開車 15 分鐘、6.9 公里",
+            "checkedAt": "2026-09-16T10:00:00+08:00"
+          },
+          {
+            "url": "https://www.sanden.co.jp/company/about/",
+            "label": "Sanden 官方公司概要：本社地址、上市、員工與營收",
+            "checkedAt": "2026-09-16T10:00:00+08:00"
+          }
+        ],
+        "note": "以物件精確座標出發，核對 30 分鐘開車圈內符合大型企業定義的營運據點；同址 Sanden 本社與 Global Center 視為同一廠區去重，只計 1 處。"
+      }
+    }
+  }
 }
