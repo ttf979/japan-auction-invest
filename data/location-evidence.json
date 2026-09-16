@@ -403,7 +403,7 @@
           {
             "siteId": "toei-animation-oizumi-studio",
             "name": "東映アニメーション 大泉スタジオ",
-            "kind": "studio",
+            "kind": "office",
             "address": "東京都練馬区東大泉2丁目10番5号",
             "minutes": 24,
             "distanceKm": 8.4,
