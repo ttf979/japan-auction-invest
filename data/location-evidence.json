@@ -311,84 +311,251 @@
         "note": "氷川台駅搭東京メトロ有楽町線直達有楽町站，再步行至東京站新幹線區域；路線總時間 35 分鐘，包含班次等候與步行，屬 31–60 分鐘級。"
       },
       "dining": {
-        "status": "pending",
+        "status": "verified",
         "station": "氷川台駅",
-        "stationExit": "全出口",
+        "stationExit": "1・2番出口（同一站體）",
         "walkingMeters": 300,
-        "count": null,
+        "count": 24,
         "deduplicated": true,
-        "coverageComplete": false,
-        "catalogCount": 38,
-        "catalogCandidates": [
-          "氷川台 浪漫酒場",
-          "晴れのち晴れ",
-          "蕎庵 あおい",
-          "炭火焼肉 MEGUMI",
-          "サイゼリヤ 氷川台駅前店",
-          "トラットリア オットブラータ",
-          "ビバパエリア 練馬店",
-          "マクドナルド 氷川台駅前店",
-          "焔",
-          "創作家庭料理モコ",
-          "ダン・ブラウン サミットストア 氷川台駅前店",
-          "ファイヤークラッカー",
-          "ささら",
-          "惣八鮨",
-          "お酒とごはん 菜々",
-          "アンジェリーナ 氷川台店",
-          "匠",
-          "松屋 氷川台店",
-          "味の店 よし野",
-          "アンテンドゥ 氷川台店",
-          "ピザーラ 練馬店",
-          "Welcome to the Jungle",
-          "BURGER KING 氷川台駅前店",
-          "新発田屋",
-          "すき家 氷川台駅前店",
-          "Chez Soi",
-          "鉄板焼 あたご",
-          "きころく 練馬氷川台",
-          "レストラン ミュール",
-          "カフェヴェントゥーノ",
-          "がんちゃん",
-          "ピザハウス カルダモン",
-          "CASAS"
+        "coverageComplete": true,
+        "establishments": [
+          {
+            "name": "氷川台 浪漫酒場",
+            "walkingMinutes": 3,
+            "walkingMeters": 230,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E6%B0%B7%E5%B7%9D%E5%8F%B0%20%E6%B5%AA%E6%BC%AB%E9%85%92%E5%A0%B4%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "晴れのち晴れ",
+            "walkingMinutes": 2,
+            "walkingMeters": 150,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E6%99%B4%E3%82%8C%E3%81%AE%E3%81%A1%E6%99%B4%E3%82%8C%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "蕎庵 あおい",
+            "walkingMinutes": 4,
+            "walkingMeters": 280,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E8%95%8E%E5%BA%B5%20%E3%81%82%E3%81%8A%E3%81%84%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "炭火焼肉 MEGUMI",
+            "walkingMinutes": 4,
+            "walkingMeters": 250,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E7%82%AD%E7%81%AB%E7%84%BC%E8%82%89%20MEGUMI%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "サイゼリヤ 氷川台駅前店",
+            "walkingMinutes": 1,
+            "walkingMeters": 110,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E3%82%B5%E3%82%A4%E3%82%BC%E3%83%AA%E3%83%A4%20%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85%E5%89%8D%E5%BA%97%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "トラットリア オットブラータ",
+            "walkingMinutes": 3,
+            "walkingMeters": 220,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E3%83%88%E3%83%A9%E3%83%83%E3%83%88%E3%83%AA%E3%82%A2%20%E3%82%AA%E3%83%83%E3%83%88%E3%83%96%E3%83%A9%E3%83%BC%E3%82%BF%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "マクドナルド 氷川台駅前店",
+            "walkingMinutes": 1,
+            "walkingMeters": 65,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E3%83%9E%E3%82%AF%E3%83%89%E3%83%8A%E3%83%AB%E3%83%89%20%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85%E5%89%8D%E5%BA%97%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "焔",
+            "walkingMinutes": 3,
+            "walkingMeters": 200,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E7%84%94%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "ささら",
+            "walkingMinutes": 1,
+            "walkingMeters": 66,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E3%81%95%E3%81%95%E3%82%89%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "惣八鮨",
+            "walkingMinutes": 4,
+            "walkingMeters": 290,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E6%83%A3%E5%85%AB%E9%AE%A8%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "お酒とごはん 菜々",
+            "walkingMinutes": 2,
+            "walkingMeters": 120,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E3%81%8A%E9%85%92%E3%81%A8%E3%81%94%E3%81%AF%E3%82%93%20%E8%8F%9C%E3%80%85%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "匠",
+            "walkingMinutes": 3,
+            "walkingMeters": 200,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E5%8C%A0%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "松屋 氷川台店",
+            "walkingMinutes": 2,
+            "walkingMeters": 110,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E6%9D%BE%E5%B1%8B%20%E6%B0%B7%E5%B7%9D%E5%8F%B0%E5%BA%97%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "味の店 よし野",
+            "walkingMinutes": 4,
+            "walkingMeters": 260,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E5%91%B3%E3%81%AE%E5%BA%97%20%E3%82%88%E3%81%97%E9%87%8E%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "BURGER KING 氷川台駅前店",
+            "walkingMinutes": 2,
+            "walkingMeters": 120,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/BURGER%20KING%20%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85%E5%89%8D%E5%BA%97%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "新発田屋",
+            "walkingMinutes": 2,
+            "walkingMeters": 120,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E6%96%B0%E7%99%BA%E7%94%B0%E5%B1%8B%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "すき家 氷川台駅前店",
+            "walkingMinutes": 1,
+            "walkingMeters": 37,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B03-40-15%20%E3%81%99%E3%81%8D%E5%AE%B6/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "Chez Soi",
+            "walkingMinutes": 2,
+            "walkingMeters": 170,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/Chez%20Soi%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "鉄板焼 あたご",
+            "walkingMinutes": 2,
+            "walkingMeters": 170,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E9%89%84%E6%9D%BF%E7%84%BC%20%E3%81%82%E3%81%9F%E3%81%94%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "きころく 練馬氷川台",
+            "walkingMinutes": 2,
+            "walkingMeters": 170,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E3%81%8D%E3%81%93%E3%82%8D%E3%81%8F%20%E7%B7%B4%E9%A6%AC%E6%B0%B7%E5%B7%9D%E5%8F%B0%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "レストラン ミュール",
+            "walkingMinutes": 4,
+            "walkingMeters": 280,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E3%83%AC%E3%82%B9%E3%83%88%E3%83%A9%E3%83%B3%20%E3%83%9F%E3%83%A5%E3%83%BC%E3%83%AB%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "がんちゃん",
+            "walkingMinutes": 2,
+            "walkingMeters": 130,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E3%81%8C%E3%82%93%E3%81%A1%E3%82%83%E3%82%93%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "ピザハウス カルダモン",
+            "walkingMinutes": 3,
+            "walkingMeters": 190,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E3%83%94%E3%82%B6%E3%83%8F%E3%82%A6%E3%82%B9%20%E3%82%AB%E3%83%AB%E3%83%80%E3%83%A2%E3%83%B3%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "CASAS",
+            "walkingMinutes": 1,
+            "walkingMeters": 90,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/CASAS%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          }
         ],
         "excluded": [
           {
+            "name": "創作家庭料理モコ",
+            "reason": "Google Maps 最短步行 350 公尺，超過 300 公尺",
+            "walkingMeters": 350,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E5%89%B5%E4%BD%9C%E5%AE%B6%E5%BA%AD%E6%96%99%E7%90%86%E3%83%A2%E3%82%B3%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "ビバパエリア 練馬店",
+            "reason": "Google Maps 解析為同址 Pizza-La，最短步行 400 公尺，超過 300 公尺",
+            "walkingMeters": 400,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E3%83%93%E3%83%90%E3%83%91%E3%82%A8%E3%83%AA%E3%82%A2%20%E7%B7%B4%E9%A6%AC%E5%BA%97%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "ピザーラ 練馬店",
+            "reason": "Google Maps 最短步行 400 公尺，超過 300 公尺",
+            "walkingMeters": 400,
+            "sourceUrl": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E3%83%94%E3%82%B6%E3%83%BC%E3%83%A9%20%E7%B7%B4%E9%A6%AC%E5%BA%97%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B0/data=!4m2!4m1!3e2"
+          },
+          {
+            "name": "Welcome to the Jungle",
+            "reason": "Google Maps 無法確認有效店家路線，維持排除"
+          },
+          {
+            "name": "ダン・ブラウン サミットストア 氷川台駅前店",
+            "reason": "麵包店，排除非餐廳／居酒屋類別"
+          },
+          {
+            "name": "ファイヤークラッカー",
+            "reason": "純酒吧，排除非餐廳／居酒屋類別"
+          },
+          {
+            "name": "アンジェリーナ 氷川台店",
+            "reason": "麵包／蛋糕／咖啡店，排除非餐廳／居酒屋類別"
+          },
+          {
+            "name": "アンテンドゥ 氷川台店",
+            "reason": "麵包／咖啡店，排除非餐廳／居酒屋類別"
+          },
+          {
+            "name": "カフェヴェントゥーノ",
+            "reason": "咖啡店，排除非餐廳／居酒屋類別"
+          },
+          {
             "name": "ファミリーマート 氷川台駅前店",
-            "reason": "便利商店，不屬餐廳或居酒屋"
+            "reason": "便利商店，排除"
           },
           {
             "name": "ビッグ・エー 氷川台駅前店",
-            "reason": "超市，不屬餐廳或居酒屋"
+            "reason": "超市，排除"
           },
           {
             "name": "セブンイレブン 氷川台駅前店",
-            "reason": "便利商店，不屬餐廳或居酒屋"
+            "reason": "便利商店，排除"
           },
           {
             "name": "サミットストア 氷川台駅前店",
-            "reason": "超市，不屬餐廳或居酒屋"
+            "reason": "超市，排除"
           },
           {
             "name": "総合園芸センター ふれあいの里",
-            "reason": "園藝中心，不屬餐廳或居酒屋"
+            "reason": "園藝中心，排除"
           }
         ],
         "sources": [
           {
+            "url": "https://www.tokyometro.jp/station/hikawadai/index.html",
+            "label": "東京 Metro 氷川台駅官方頁：站址與出口資訊",
+            "checkedAt": "2026-09-16T12:15:00+08:00"
+          },
+          {
+            "url": "https://www.tokyometro.jp/station/hikawadai/accessibility/index.html",
+            "label": "東京 Metro 無障礙設備頁：1、2 號出入口",
+            "checkedAt": "2026-09-16T12:15:00+08:00"
+          },
+          {
             "url": "https://tabelog.com/tokyo/A1322/A132202/R8365/rstLst/?LstRange=SF",
-            "label": "食べログ：氷川台駅 300m 篩選，目錄 38 件",
-            "checkedAt": "2026-09-16T11:45:00+08:00"
+            "label": "食べログ：氷川台駅 300m 候選目錄第 1 頁",
+            "checkedAt": "2026-09-16T12:15:00+08:00"
           },
           {
             "url": "https://tabelog.com/tokyo/A1322/A132202/R8365/rstLst/2/?LstRange=SF",
-            "label": "食べログ：氷川台駅 300m 篩選第 2 頁",
-            "checkedAt": "2026-09-16T11:45:00+08:00"
+            "label": "食べログ：氷川台駅 300m 候選目錄第 2 頁",
+            "checkedAt": "2026-09-16T12:15:00+08:00"
+          },
+          {
+            "url": "https://www.google.com/maps/dir/%E6%B0%B7%E5%B7%9D%E5%8F%B0%E9%A7%85/%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%B7%B4%E9%A6%AC%E5%8C%BA%E6%B0%B7%E5%B7%9D%E5%8F%B03-40-15%20%E3%81%99%E3%81%8D%E5%AE%B6/data=!4m2!4m1!3e2",
+            "label": "Google Maps 步行路線例：すき家 37 公尺；其餘逐店路線保存在店家清單",
+            "checkedAt": "2026-09-16T12:15:00+08:00"
           }
         ],
-        "note": "已完成目錄名單去重與非餐飲類別排除；食べログ的站距不能證明從各出口的實際步行路線，故依規則維持待查，不以 38 件直接計分。"
+        "note": "先以食べログ 300 公尺目錄盤點 38 筆，去除便利商店、超市、園藝中心與純咖啡／烘焙／酒吧，再由 Google Maps 逐店核對從氷川台駅站體的最短步行路線；24 家在 300 公尺內，店名去重。"
       },
       "employment": {
         "status": "verified",
